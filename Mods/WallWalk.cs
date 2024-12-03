@@ -58,6 +58,7 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
+            Physics.gravity = grav;
         }
 
         public override void OnModEnabled()
