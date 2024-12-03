@@ -8,13 +8,14 @@ using System.IO;
 using System.Reflection;
 using TMPro;
 using DevHoldableEngine;
+using GorillaLocomotion;
 
 namespace Index
 {
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        public static bool inRoom;
+        public static bool inRoom, initialized;
         public static List<IndexMod> mods = new List<IndexMod>();
         public static GameObject indexPanel;
 
@@ -94,6 +95,7 @@ namespace Index
                     }
 
                     Debug.Log($"INDEX // {modInstance.modName} initialized correctly.");
+                    initialized = true;
                 }
             }
             foreach (Transform child in indexPanelMods)
@@ -110,15 +112,18 @@ namespace Index
 
         void Update()
         {
-            if (mods != null)
+            if (initialized)
             {
-                if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
+                if (mods != null)
                 {
-                    foreach (IndexMod index in mods)
+                    if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
                     {
-                        if (index.enabled)
+                        foreach (IndexMod index in mods)
                         {
-                            index.OnUpdate();
+                            if (index.enabled)
+                            {
+                                index.OnUpdate();
+                            }
                         }
                     }
                 }
@@ -126,40 +131,50 @@ namespace Index
         }
         void FixedUpdate()
         {
-            if (mods != null)
+            if (initialized)
             {
-                if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
+                if (mods != null)
                 {
-                    if (!inRoom)
-                        inRoom = true;
-
-                    if (!indexPanel.activeSelf)
-                        indexPanel.SetActive(true);
-
-                    foreach (IndexMod index in mods)
+                    if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
                     {
-                        if (index.enabled)
+                        if (!inRoom)
+                            inRoom = true;
+
+                        if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
                         {
-                            index.OnFixedUpdate();
+                            Vector3 offset = new Vector3(0.4f, 0, 0.4f);
+                            indexPanel.transform.position = Player.Instance.headCollider.transform.position + offset;
+                            indexPanel.transform.rotation = Player.Instance.headCollider.transform.rotation;
+                        }
+
+                        if (!indexPanel.activeSelf)
+                            indexPanel.SetActive(true);
+
+                        foreach (IndexMod index in mods)
+                        {
+                            if (index.enabled)
+                            {
+                                index.OnFixedUpdate();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (inRoom)
-                        inRoom = false;
-
-                    if (indexPanel.activeSelf)
-                        indexPanel.SetActive(false);
-
-                    foreach (IndexMod index in mods)
+                    else
                     {
-                        if (index.enabled)
-                        {
-                            index.OnModDisabled();
-                        }
-                    }
+                        if (inRoom)
+                            inRoom = false;
 
+                        if (indexPanel.activeSelf)
+                            indexPanel.SetActive(false);
+
+                        foreach (IndexMod index in mods)
+                        {
+                            if (index.enabled)
+                            {
+                                index.OnModDisabled();
+                            }
+                        }
+
+                    }
                 }
             }
         }
