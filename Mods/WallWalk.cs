@@ -44,7 +44,7 @@ namespace Index.Mods
             {
                 if (Vector3.Distance(Player.Instance.bodyCollider.transform.position, hit.point) > 1.5f * Player.Instance.scale)
                 {
-                    Physics.gravity = grav * 1.5f;
+                    Physics.gravity = grav;
                 }
             }
         }
@@ -58,6 +58,7 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
+            Physics.gravity = grav;
         }
 
         public override void OnModEnabled()
