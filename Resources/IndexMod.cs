@@ -49,6 +49,6 @@ namespace Index.Resources
     public enum ModType
     {
         gameplay,
-        miscellaneous
+        testing
     }
 }
