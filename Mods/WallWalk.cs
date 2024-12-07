@@ -17,7 +17,7 @@ namespace Index.Mods
             modDescription = "Lets you stick onto the walls.";
             modGUID = "WallWalk";
             modID = 4;
-            modType = ModType.gameplay;
+            modType = ModType.testing;
         }
 
         public override void Start()

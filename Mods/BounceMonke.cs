@@ -32,7 +32,7 @@ namespace Index.Mods
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            Player.Instance.bodyCollider.material.bounciness = 0.75f;
+            Player.Instance.bodyCollider.material.bounciness = 1f;
         }
     }
 }

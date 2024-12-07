@@ -18,7 +18,7 @@ namespace Index.Mods
             modDescription = "Makes you non-collidable.";
             modGUID = "NoClip";
             modID = 9;
-            modType = ModType.gameplay;
+            modType = ModType.testing;
 
         }
 

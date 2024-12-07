@@ -15,7 +15,7 @@ namespace Index.Mods
             modDescription = "Pushes you in the direction you want to go. (Using your hands)";
             modGUID = "IronMonke";
             modID = 8;
-            modType = ModType.gameplay;
+            modType = ModType.testing;
         }
 
         public override void Start()

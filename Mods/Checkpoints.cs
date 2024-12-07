@@ -28,7 +28,7 @@ namespace Index.Mods
             modDescription = "Lets you create a checkpoint and teleport to it.";
             modGUID = "Checkpoints";
             modID = 13;
-            modType = ModType.gameplay;
+            modType = ModType.testing;
         }
 
         public override void Start()

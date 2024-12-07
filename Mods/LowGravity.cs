@@ -16,7 +16,7 @@ namespace Index.Mods
             modDescription = "Lets you float in the air.";
             modGUID = "LowGravity";
             modID = 7;
-            modType = ModType.gameplay;
+            modType = ModType.testing;
         }
 
         public override void Start()
