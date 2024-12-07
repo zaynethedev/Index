@@ -6,20 +6,12 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    class SmallMonke : IndexMod
+    [IndexMod("Small Monke", "Makes you small.", "SmallMonke", 12)]
+    class SmallMonke : ModHandler
     {
         public static SmallMonke instance;
         public Hashtable hash = new Hashtable();
         public Vector3 originalIndexPanelSize = new Vector3(0.16f, 0.16f, 0.16f);
-
-        public SmallMonke()
-        {
-            modName = "Small Monke";
-            modDescription = "Makes you small.";
-            modGUID = "SmallMonke";
-            modID = 12;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

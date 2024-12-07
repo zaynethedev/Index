@@ -1,25 +1,14 @@
 ﻿using Index.Resources;
 using GorillaLocomotion;
-using UnityEngine;
 using HarmonyLib;
 using Index.Mods;
-using System;
-using Index;
 
 namespace Index.Mods
 {
-    class NoSlip : IndexMod
+    [IndexMod("No-Slip", "Disables slipping mechanics.", "NoSlip", 5)]
+    class NoSlip : ModHandler
     {
         public static NoSlip instance;
-
-        public NoSlip()
-        {
-            modName = "No Slip";
-            modDescription = "Disables slipping mechanics.";
-            modGUID = "NoSlip";
-            modID = 5;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

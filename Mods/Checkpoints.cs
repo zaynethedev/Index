@@ -9,7 +9,8 @@ using Photon.Pun;
 
 namespace Index.Mods
 {
-    class Checkpoints : IndexMod
+    [IndexMod("Checkpoint Mod", "Lets you create a checkpoint and teleport to it.", "Checkpoints", 13)]
+    class Checkpoints : ModHandler
     {
         public static Checkpoints instance;
 
@@ -21,15 +22,6 @@ namespace Index.Mods
 
         Dictionary<String, GameObject> checkpoints = new Dictionary<String, GameObject>();
         Photon.Realtime.Player[] playerList;
-
-        public Checkpoints()
-        {
-            modName = "Checkpoint Mod";
-            modDescription = "Lets you create a checkpoint and teleport to it.";
-            modGUID = "Checkpoints";
-            modID = 13;
-            modType = ModType.testing;
-        }
 
         public override void Start()
         {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 using System.Collections;
-using System.Threading.Tasks;
 
 namespace Index.Resources
 {
@@ -36,7 +33,7 @@ namespace Index.Resources
 
             if (int.TryParse(buttonName, out int modID))
             {
-                IndexMod mod = Plugin.mods.FirstOrDefault(m => m.modID == modID);
+                ModHandler mod = Plugin.mods.FirstOrDefault(m => m.modID == modID);
 
                 if (mod != null)
                 {

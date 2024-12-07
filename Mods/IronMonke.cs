@@ -1,22 +1,12 @@
 ﻿using GorillaLocomotion;
 using Index.Resources;
 using UnityEngine;
-using UnityEngine.EventSystems;
-
 namespace Index.Mods
 {
-    class IronMonke : IndexMod
+    [IndexMod("Iron Monke", "Pushes you in the direction you want to go. (Using your hands)", "BigMonke", 8)]
+    class IronMonke : ModHandler
     {
         public static IronMonke instance;
-
-        public IronMonke()
-        {
-            modName = "Iron Monke";
-            modDescription = "Pushes you in the direction you want to go. (Using your hands)";
-            modGUID = "IronMonke";
-            modID = 8;
-            modType = ModType.testing;
-        }
 
         public override void Start()
         {

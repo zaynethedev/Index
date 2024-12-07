@@ -5,20 +5,12 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    class WallWalk : IndexMod
+    [IndexMod("Wall Walk", "Lets you stick onto the walls.", "WallWalk", 4)]
+    class WallWalk : ModHandler
     {
         public static WallWalk instance;
         public RaycastHit hit;
         public Vector3 grav;
-
-        public WallWalk()
-        {
-            modName = "Wall Walk";
-            modDescription = "Lets you stick onto the walls.";
-            modGUID = "WallWalk";
-            modID = 4;
-            modType = ModType.testing;
-        }
 
         public override void Start()
         {

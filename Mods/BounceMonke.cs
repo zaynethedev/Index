@@ -1,21 +1,12 @@
 using Index.Resources;
-using UnityEngine;
 using GorillaLocomotion;
 
 namespace Index.Mods
 {
-    class BounceMonke : IndexMod
+    [IndexMod("Bounce Monke", "Makes you bouncy.", "BounceMonke", 10)]
+    class BounceMonke : ModHandler
     {
         public static BounceMonke instance;
-
-        public BounceMonke()
-        {
-            modName = "Bounce Monke";
-            modDescription = "Makes you bouncy.";
-            modGUID = "BounceMonke";
-            modID = 10;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

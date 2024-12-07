@@ -1,23 +1,14 @@
 ﻿using Index.Resources;
-using GorillaLocomotion;
 using UnityEngine;
 
 namespace Index.Mods
 {
-    class LowGravity : IndexMod
+    [IndexMod("Low Gravity", "Lets you float in the air.", "LowGravity", 7)]
+    class LowGravity : ModHandler
     {
         public static LowGravity instance;
         public float gravityScale = .25f;
         Vector3 grav;
-
-        public LowGravity()
-        {
-            modName = "Low Gravity";
-            modDescription = "Lets you float in the air.";
-            modGUID = "LowGravity";
-            modID = 7;
-            modType = ModType.testing;
-        }
 
         public override void Start()
         {

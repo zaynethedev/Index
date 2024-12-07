@@ -5,18 +5,10 @@ using HarmonyLib;
 using Index.Mods;
 namespace Index.Mods
 {
-    class ModTemplate : IndexMod
+    [IndexMod("Mod Template", "A template for creating mods.", "ModTemplate", 0)]
+    class ModTemplate : ModHandler
     {
         public static ModTemplate instance;
-
-        public ModTemplate()
-        {
-            modName = "Mod Template";
-            modDescription = "Mod Description.";
-            modGUID = "ModTemplate";
-            modID = 5;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

@@ -4,18 +4,10 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    class Fly : IndexMod
+    [IndexMod("Fly", "Allows you to glide in the air with your controller buttons.", "Fly", 3)]
+    class Fly : ModHandler
     {
         public static Fly instance;
-
-        public Fly()
-        {
-            modName = "Fly";
-            modDescription = "Allows you to glide in the air with your controller buttons.";
-            modGUID = "Fly";
-            modID = 3;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

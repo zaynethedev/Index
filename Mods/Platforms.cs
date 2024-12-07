@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    class Platforms : IndexMod
+    [IndexMod("Platforms", "Spawns collidable objects under your hand every time you press grip.", "Platforms", 1)]
+    class Platforms : ModHandler
     {
         public static Platforms instance;
         public Vector3 platformOffsetL = new Vector3(0f, -0.025f, 0f), platformOffsetR = new Vector3(0f, -0.025f, 0f);
@@ -12,15 +13,6 @@ namespace Index.Mods
         public static bool platSetR = false, platSetL = false;
         public Vector3 platSize = new Vector3(0.3f, 0.06f, 0.3f);
         public Color platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
-
-        public Platforms()
-        {
-            modName = "Platforms";
-            modDescription = "Spawns collidable objects under your hand everytime you press grip.";
-            modGUID = "Platforms";
-            modID = 1;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {

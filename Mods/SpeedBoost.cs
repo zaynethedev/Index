@@ -3,18 +3,10 @@ using GorillaLocomotion;
 
 namespace Index.Mods
 {
-    class SpeedBoost : IndexMod
+    [IndexMod("Speed Boost", "A mod that increases your speed, making it easier to run.", "SpeedBoost", 2)]
+    class SpeedBoost : ModHandler
     {
         public static SpeedBoost instance;
-
-        public SpeedBoost()
-        {
-            modName = "Speed Boost";
-            modDescription = "A mod that increases your speed, making it easier to run.";
-            modGUID = "SpeedBoost";
-            modID = 2;
-            modType = ModType.gameplay;
-        }
 
         public override void Start()
         {
@@ -32,6 +24,11 @@ namespace Index.Mods
             base.OnModDisabled();
             Player.Instance.jumpMultiplier = 1.1f;
             Player.Instance.maxJumpSpeed = 6.5f;
+        }
+
+        public override void OnModEnabled()
+        {
+            base.OnModEnabled();
         }
     }
 }

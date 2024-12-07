@@ -3,36 +3,29 @@ using UnityEngine;
 using Index.Resources;
 using System.Collections.Generic;
 using System;
-using Photon.Pun;
 using System.IO;
 using System.Reflection;
 using TMPro;
 using DevHoldableEngine;
 using GorillaLocomotion;
+using HarmonyLib;
 
 namespace Index
 {
-    [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
+    [BepInPlugin("zaynethedev.Index", "Index", "0.1.0")]
     public class Plugin : BaseUnityPlugin
     {
-        public static bool inRoom = false, initialized = false;
-        public static List<IndexMod> mods = new List<IndexMod>();
+        public static bool inRoom, initialized;
+        public static List<ModHandler> mods = new List<ModHandler>();
         public static GameObject indexPanel;
+        private static Harmony instance;
+        public static bool IsPatched { get; private set; }
+        public const string InstanceId = "zaynethedev.Index";
 
         void Start()
         {
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
-        }
-
-        void OnEnable()
-        {
-            HarmonyPatches.ApplyHarmonyPatches();
-        }
-
-        void OnDisable()
-        {
-            HarmonyPatches.RemoveHarmonyPatches();
         }
 
         void preInit()
@@ -51,14 +44,23 @@ namespace Index
             SetupModPanel();
             foreach (var type in allTypes)
             {
-                if (typeof(IndexMod).IsAssignableFrom(type) && !type.IsAbstract)
-                {
-                    InitializeMod(type);
-                }
+                InitializeMod(type);
             }
             DisableUnusedMods();
             initialized = true;
+            indexPanel.transform.Find("IndexPanel/ModInfo").gameObject.GetComponent<TextMeshPro>().text = $"No mod selected\n\nNo mod selected";
             Debug.Log("INDEX Initialization complete.");
+
+            if (!IsPatched)
+            {
+                if (instance == null)
+                {
+                    instance = new Harmony(InstanceId);
+                }
+
+                instance.PatchAll(Assembly.GetExecutingAssembly());
+                IsPatched = true;
+            }
         }
 
         void InitializePanelTransform()
@@ -81,30 +83,54 @@ namespace Index
 
         void InitializeMod(Type modType)
         {
-            IndexMod modInstance = (IndexMod)Activator.CreateInstance(modType);
+            if (!typeof(ModHandler).IsAssignableFrom(modType) || modType.IsAbstract)
+            {
+                return;
+            }
+            ModHandler modInstance = ModHandler.CreateInstance(modType);
+            if (modInstance == null) return;
+
             mods.Add(modInstance);
             GameObject modGameObject = new GameObject(modInstance.modName);
             modGameObject.AddComponent(modType);
             modGameObject.transform.parent = indexPanel.transform.Find("Mods").transform;
             modInstance.Start();
             SetupModUI(modInstance);
+
             Debug.Log($"INDEX // {modInstance.modName} initialized correctly.");
         }
 
-        void SetupModUI(IndexMod modInstance)
+        void SetupModUI(ModHandler modInstance)
         {
-            var modPanel = indexPanel.transform.Find($"Mods/{modInstance.modID}");
-            TextMeshPro textComponent = modPanel.Find("Text")?.GetComponent<TextMeshPro>();
-            if (textComponent != null)
+            var modType = modInstance.GetType();
+            var indexModAttribute = (IndexMod)Attribute.GetCustomAttribute(modType, typeof(IndexMod));
+
+            if (indexModAttribute != null)
             {
-                textComponent.text = modInstance.modName;
+                int modID = indexModAttribute.ModID;
+                var modPanel = indexPanel.transform.Find($"Mods/{modID}");
+                if (modPanel == null)
+                {
+                    Debug.LogError($"Mod panel for {modInstance.modName} (ID: {modID}) not found.");
+                    return;
+                }
+
+                TextMeshPro textComponent = modPanel.Find("Text")?.GetComponent<TextMeshPro>();
+                if (textComponent != null)
+                {
+                    textComponent.text = modInstance.modName;
+                }
+                if (!modPanel.GetComponent<ButtonManager>())
+                {
+                    var buttonManager = modPanel.gameObject.AddComponent<ButtonManager>();
+                    buttonManager.Start();
+                }
+                DistributeModToPage(modPanel);
             }
-            if (!modPanel.GetComponent<ButtonManager>())
+            else
             {
-                var buttonManager = modPanel.gameObject.AddComponent<ButtonManager>();
-                buttonManager.Start();
+                Debug.LogError($"IndexMod attribute not found for {modInstance.modName}");
             }
-            DistributeModToPage(modPanel);
         }
 
         void DistributeModToPage(Transform modPanel)
@@ -139,17 +165,23 @@ namespace Index
             /*if (Keyboard.current.jKey.wasPressedThisFrame)
                 PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("F6", JoinType.Solo);*/
 
-            if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
-                foreach (IndexMod index in mods)
+            if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
+                foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
+            else
+                    if (instance != null && IsPatched)
+                    {
+                        instance.UnpatchSelf();
+                        IsPatched = false;
+                    }
         }
 
         void FixedUpdate()
         {
             if (!initialized) return;
 
-            if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.CustomProperties["gameMode"].ToString().Contains("MODDED"))
+            if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
                 HandleModPanelVisibility();
                 HandleModUpdates();
@@ -164,7 +196,7 @@ namespace Index
                 {
                     indexPanel.SetActive(false);
                 }
-                foreach (IndexMod index in mods)
+                foreach (ModHandler index in mods)
                 {
                     if (index.enabled)
                     {
@@ -193,7 +225,7 @@ namespace Index
 
         void HandleModUpdates()
         {
-            foreach (IndexMod index in mods)
+            foreach (ModHandler index in mods)
             {
                 if (index.enabled)
                 {
