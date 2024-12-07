@@ -10,6 +10,8 @@ namespace Index.Mods
         public GameObject platformL, platformR;
         public Transform platformTransformL, platformTransformR;
         public static bool platSetR = false, platSetL = false;
+        public Vector3 platSize = new Vector3(0.3f, 0.06f, 0.3f);
+        public Color platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
 
         public Platforms()
         {
@@ -27,7 +29,7 @@ namespace Index.Mods
             platformL = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformL.AddComponent<GorillaSurfaceOverride>();
             platformL.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            platformL.GetComponent<MeshRenderer>().material.color = GorillaTagger.Instance.offlineVRRig.playerColor;
+            platformL.GetComponent<MeshRenderer>().material.color = platColor;
 
             platformL.name = "GorillaLeftPlatform";
             platformL.transform.position = Vector3.zero;
@@ -36,7 +38,7 @@ namespace Index.Mods
             platformR = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformR.AddComponent<GorillaSurfaceOverride>();
             platformR.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            platformR.GetComponent<MeshRenderer>().material.color = GorillaTagger.Instance.offlineVRRig.playerColor;
+            platformR.GetComponent<MeshRenderer>().material.color = platColor;
             platformR.name = "GorillaRightPlatform";
             platformR.transform.position = Vector3.zero;
             platformR.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
