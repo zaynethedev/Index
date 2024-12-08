@@ -32,15 +32,3 @@ namespace Index.Mods
         }
     }
 }
-
-[HarmonyPatch(typeof(Player), "GetSlidePercentage")]
-class SlipPatch
-{
-    static void Postfix(ref float __result)
-    {
-        if (SlipperyMonke.instance.enabled)
-        {
-            __result = 1f;
-        }
-    }
-}

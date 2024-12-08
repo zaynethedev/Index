@@ -31,15 +31,3 @@ namespace Index.Mods
         }
     }
 }
-
-[HarmonyPatch(typeof(Player), "GetSlidePercentage")]
-class NoSlipPatch
-{
-    static void Postfix(ref float __result)
-    {
-        if (NoSlip.instance.enabled)
-        {
-            __result = 0f;
-        }
-    }
-}
