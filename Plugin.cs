@@ -24,6 +24,7 @@ namespace Index
 
         void Start()
         {
+            var harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "zaynethedev.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
         }
@@ -50,17 +51,6 @@ namespace Index
             initialized = true;
             indexPanel.transform.Find("IndexPanel/ModInfo").gameObject.GetComponent<TextMeshPro>().text = $"No mod selected\n\nNo mod selected";
             Debug.Log("INDEX Initialization complete.");
-
-            if (!IsPatched)
-            {
-                if (instance == null)
-                {
-                    instance = new Harmony(InstanceId);
-                }
-
-                instance.PatchAll(Assembly.GetExecutingAssembly());
-                IsPatched = true;
-            }
         }
 
         void InitializePanelTransform()
@@ -77,6 +67,7 @@ namespace Index
             var indexPanelMods = indexTransform.Find("Mods");
             indexTransform.Find("Page1").gameObject.AddComponent<ButtonManager>();
             indexTransform.Find("Page2").gameObject.AddComponent<ButtonManager>();
+            indexTransform.Find("Settings").gameObject.AddComponent<ButtonManager>();
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
             indexPanel.SetActive(false);
         }
@@ -169,12 +160,6 @@ namespace Index
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
-            else
-                    if (instance != null && IsPatched)
-                    {
-                        instance.UnpatchSelf();
-                        IsPatched = false;
-                    }
         }
 
         void FixedUpdate()

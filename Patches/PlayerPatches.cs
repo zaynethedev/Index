@@ -15,7 +15,7 @@ namespace Index.Patches
             }
             else if (NoSlip.instance.enabled)
             {
-                __result = 0.03f;  
+                __result = 0.03f;
             }
         }
     }

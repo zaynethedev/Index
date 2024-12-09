@@ -17,7 +17,7 @@ namespace Index.Resources
             instance = this;
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
             gameObject.layer = 18;
-            unselectedMaterial.color = new Color(.75f, .75f, .75f);
+            unselectedMaterial.color = new Color(1, 1, 1);
             selectedMaterial.color = new Color(1, 0, 0);
             gameObject.GetComponent<MeshRenderer>().material = unselectedMaterial;
         }
