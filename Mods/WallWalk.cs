@@ -30,7 +30,7 @@ namespace Index.Mods
             if (isHandTouching)
             {
                 hit = GetLastHitInfo();
-                Physics.gravity = hit.normal * -grav.magnitude * 1.5f;
+                Physics.gravity = hit.normal * -grav.magnitude * 1.175f;
             }
             else
             {

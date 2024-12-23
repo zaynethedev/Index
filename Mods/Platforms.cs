@@ -1,4 +1,5 @@
-﻿using Index.Resources;
+﻿using GorillaLocomotion.Climbing;
+using Index.Resources;
 using UnityEngine;
 
 namespace Index.Mods
@@ -20,20 +21,23 @@ namespace Index.Mods
             instance = this;
             platformL = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformL.AddComponent<GorillaSurfaceOverride>();
-            platformL.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            platformL.GetComponent<MeshRenderer>().material.color = platColor;
-
+            platformL.GetComponent<MeshRenderer>().material = new Material(Plugin.indexPanel.transform.Find("ShaderInit_Platforms").GetComponent<MeshRenderer>().materials[0]);
+            platformL.GetComponent<MeshRenderer>().material.SetFloat("_Fill", 0.075f);
             platformL.name = "GorillaLeftPlatform";
             platformL.transform.position = Vector3.zero;
             platformL.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
+            platformL.AddComponent<GorillaClimbable>();
+            platformL.layer = LayerMask.NameToLayer("GorillaInteractable");
 
             platformR = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformR.AddComponent<GorillaSurfaceOverride>();
-            platformR.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            platformR.GetComponent<MeshRenderer>().material.color = platColor;
+            platformR.GetComponent<MeshRenderer>().material = new Material(Plugin.indexPanel.transform.Find("ShaderInit_Platforms").GetComponent<MeshRenderer>().materials[0]);
+            platformR.GetComponent<MeshRenderer>().material.SetFloat("_Fill", 0.075f);
             platformR.name = "GorillaRightPlatform";
             platformR.transform.position = Vector3.zero;
             platformR.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
+            platformR.AddComponent<GorillaClimbable>();
+            platformR.layer = LayerMask.NameToLayer("GorillaInteractable");
 
             platformTransformL = platformL.transform;
             platformTransformR = platformR.transform;
@@ -41,6 +45,7 @@ namespace Index.Mods
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();
+            platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
             if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.5)
             {
                 if (!platSetR)
@@ -48,6 +53,7 @@ namespace Index.Mods
                     platSetR = true;
                     platformTransformR.position = GorillaLocomotion.Player.Instance.rightControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformR.rotation = Quaternion.Euler(0, -90, 0);
+                    platformR.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
                     platformTransformR.Translate(platformOffsetR);
                 }
             }
@@ -64,6 +70,7 @@ namespace Index.Mods
                     platSetL = true;
                     platformTransformL.position = GorillaLocomotion.Player.Instance.leftControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformL.rotation = Quaternion.Euler(0, -90, 0);
+                    platformL.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
                     platformTransformL.Translate(platformOffsetL);
                 }
             }

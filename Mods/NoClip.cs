@@ -44,6 +44,11 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
+            MeshCollider[] array = NoClipHelper.Instance.FindAllObjectsOfType<MeshCollider>();
+            foreach (MeshCollider meshCollider in array)
+            {
+                meshCollider.enabled = true;
+            }
         }
         public override void OnModEnabled()
         {

@@ -9,6 +9,8 @@ using TMPro;
 using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
+using UnityEngine.InputSystem;
+using Index.Mods;
 
 namespace Index
 {
@@ -18,13 +20,12 @@ namespace Index
         public static bool inRoom, initialized;
         public static List<ModHandler> mods = new List<ModHandler>();
         public static GameObject indexPanel;
-        private static Harmony instance;
-        public static bool IsPatched { get; private set; }
-        public const string InstanceId = "zaynethedev.Index";
+        public List<GameObject> buttons = new List<GameObject>();
+        public static Harmony harmony;
 
         void Start()
         {
-            var harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "zaynethedev.Index");
+            harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "zaynethedev.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
         }
@@ -65,10 +66,23 @@ namespace Index
         {
             var indexTransform = indexPanel.transform;
             var indexPanelMods = indexTransform.Find("Mods");
-            indexTransform.Find("Page1").gameObject.AddComponent<ButtonManager>();
-            indexTransform.Find("Page2").gameObject.AddComponent<ButtonManager>();
-            indexTransform.Find("Settings").gameObject.AddComponent<ButtonManager>();
+            buttons.Add(indexTransform.Find("Page1").gameObject);
+            buttons.Add(indexTransform.Find("Page2").gameObject);
+            buttons.Add(indexTransform.Find("Page3").gameObject);
+            buttons.Add(indexTransform.Find("Settings").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/NextMod").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/PreviousMod").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfig").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfig").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfigOption").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfigOption").gameObject);
+            foreach (var btn in buttons)
+            {
+                btn.AddComponent<ButtonManager>();
+            }
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
+            indexTransform.Find("Mods/page3").gameObject.SetActive(false);
+            indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v0.1.0a";
             indexPanel.SetActive(false);
         }
 
@@ -129,10 +143,13 @@ namespace Index
             var modName = modPanel.gameObject.name;
             var page1 = indexPanel.transform.Find("Mods/page1");
             var page2 = indexPanel.transform.Find("Mods/page2");
+            var page3 = indexPanel.transform.Find("Mods/page3");
             if (new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" }.Contains(modName))
                 modPanel.SetParent(page1, false);
-            else if (new HashSet<string> { "9", "10", "11", "12", "13", "14" }.Contains(modName))
+            else if (new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" }.Contains(modName))
                 modPanel.SetParent(page2, false);
+            else if (new HashSet<string> { "17", "18", "19", "20", "21", "22", "23", "24" }.Contains(modName))
+                modPanel.SetParent(page3, false);
         }
 
         void DisableUnusedMods()
@@ -141,7 +158,7 @@ namespace Index
 
             foreach (Transform child in indexPanelMods)
             {
-                if (child.name != "page1" && child.name != "page2")
+                if (!new HashSet<string> { "page1", "page2", "page3" }.Contains(child.name))
                 {
                     Debug.Log($"INDEX // Disabling unused mod. ModID: {child.name}");
                     child.gameObject.SetActive(false);
@@ -153,13 +170,39 @@ namespace Index
         {
             if (!initialized) return;
 
-            /*if (Keyboard.current.jKey.wasPressedThisFrame)
-                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("F6", JoinType.Solo);*/
-
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
+        }
+
+        private void OnGUI()
+        {
+            if (!inRoom) return;
+            GUI.Box(new Rect(10, 10, 500, 500), "Index Development UI");
+
+            int columns = 3;
+            int buttonWidth = 140;
+            int buttonHeight = 40;
+            int spacing = 10;
+            int xStart = 20;
+            int yStart = 40;
+
+            for (int i = 1; i < mods.Count; i++)
+            {
+                int row = (i - 1) / columns;
+                int column = (i - 1) % columns;
+                int xPos = xStart + (buttonWidth + spacing) * column;
+                int yPos = yStart + (buttonHeight + spacing) * row;
+
+                if (GUI.Button(new Rect(xPos, yPos, buttonWidth, buttonHeight), mods[i].modName))
+                {
+                    if (mods[i].enabled)
+                        mods[i].OnModDisabled();
+                    else
+                        mods[i].OnModEnabled();
+                }
+            }
         }
 
         void FixedUpdate()
@@ -169,7 +212,13 @@ namespace Index
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
                 HandleModPanelVisibility();
-                HandleModUpdates();
+                foreach (ModHandler index in mods)
+                {
+                    if (index.enabled)
+                    {
+                        index.OnFixedUpdate();
+                    }
+                }
             }
             else
             {
@@ -205,17 +254,6 @@ namespace Index
             if (!indexPanel.activeSelf)
             {
                 indexPanel.SetActive(true);
-            }
-        }
-
-        void HandleModUpdates()
-        {
-            foreach (ModHandler index in mods)
-            {
-                if (index.enabled)
-                {
-                    index.OnFixedUpdate();
-                }
             }
         }
 

@@ -9,23 +9,20 @@ namespace Index.Resources
         public static ButtonManager instance;
         public static bool isCooldown = false;
         public float cooldownTime = 0.1f;
-        public static Material unselectedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        public static Material selectedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        public static Material unselectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_UnselectedButton").GetComponent<MeshRenderer>().materials[0]);
+        public static Material selectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_SelectedButton").GetComponent<MeshRenderer>().materials[0]);
 
         public override void Start()
         {
             instance = this;
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
             gameObject.layer = 18;
-            unselectedMaterial.color = new Color(1, 1, 1);
-            selectedMaterial.color = new Color(1, 0, 0);
             gameObject.GetComponent<MeshRenderer>().material = unselectedMaterial;
         }
 
         public override void ButtonActivation()
         {
             string buttonName = gameObject.name;
-
             if (isCooldown)
             {
                 return;
@@ -51,17 +48,48 @@ namespace Index.Resources
             }
             else
             {
-                if (buttonName == "Page1" && !Plugin.indexPanel.transform.Find("Mods/page1").gameObject.activeSelf)
+                switch (gameObject.name)
                 {
-                    Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(true);
-                    Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
-                    StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
-                }
-                else if (buttonName == "Page2" && !Plugin.indexPanel.transform.Find("Mods/page2").gameObject.activeSelf)
-                {
-                    Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
-                    Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(true);
-                    StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
+                    case "Page1":
+                        if (!Plugin.indexPanel.transform.Find("Mods/page1").gameObject.activeSelf)
+                        {
+                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(true);
+                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page3").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
+                            StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
+                        }
+                        break;
+                    case "Page2":
+                        if (!Plugin.indexPanel.transform.Find("Mods/page2").gameObject.activeSelf)
+                        {
+                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(true);
+                            Plugin.indexPanel.transform.Find("Mods/page3").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
+                            StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
+                        }
+                        break;
+                    case "Page3":
+                        if (!Plugin.indexPanel.transform.Find("Mods/page3").gameObject.activeSelf)
+                        {
+                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page3").gameObject.SetActive(true);
+                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
+                            StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
+                        }
+                        break;
+                    case "Settings":
+                        if (!Plugin.indexPanel.transform.Find("SettingsPage").gameObject.activeSelf)
+                        {
+                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page3").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(true);
+                            StartCoroutine(ChangeMaterialWithDelay(gameObject, selectedMaterial, unselectedMaterial, 0.1f));
+                        }
+                        break;
                 }
             }
         }

@@ -10,7 +10,6 @@ namespace Index.Mods
     class BigMonke : ModHandler
     {
         public static BigMonke instance;
-        public Hashtable hash = new Hashtable();
         public Vector3 originalIndexPanelSize = new Vector3(0.16f, 0.16f, 0.16f);
 
         public override void Start()
@@ -27,18 +26,15 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
-            hash.AddOrUpdate("indexSize", 1f);
-            PhotonNetwork.SetPlayerCustomProperties(hash);
             Plugin.indexPanel.transform.localScale = originalIndexPanelSize;
         }
 
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            hash.AddOrUpdate("indexSize", 2f);
-            PhotonNetwork.SetPlayerCustomProperties(hash);
-            Plugin.indexPanel.transform.localScale *= 1.5f;
-            SmallMonke.instance.OnModDisabled();
+            Plugin.indexPanel.transform.localScale *= 2f;
+            if (SmallMonke.instance.enabled)
+                SmallMonke.instance.OnModDisabled();
         }
     }
 }
