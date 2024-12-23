@@ -11,6 +11,7 @@ using GorillaLocomotion;
 using HarmonyLib;
 using UnityEngine.InputSystem;
 using Index.Mods;
+using Photon.Pun;
 
 namespace Index
 {
@@ -179,7 +180,7 @@ namespace Index
         private void OnGUI()
         {
             if (!inRoom) return;
-            GUI.Box(new Rect(10, 10, 500, 500), "Index Development UI");
+            GUI.Box(new Rect(10, 10, 480, 500), "Index Development UI");
 
             int columns = 3;
             int buttonWidth = 140;
@@ -246,9 +247,8 @@ namespace Index
 
             if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
-                var offset = new Vector3(0.4f, 0, 0.4f);
-                indexPanel.transform.position = Player.Instance.headCollider.transform.position + offset;
-                indexPanel.transform.rotation = Player.Instance.headCollider.transform.rotation;
+                indexPanel.transform.rotation = GorillaTagger.Instance.mainCamera.transform.transform.rotation;
+                indexPanel.transform.position = Player.Instance.headCollider.transform.position + Player.Instance.headCollider.transform.forward;
             }
 
             if (!indexPanel.activeSelf)

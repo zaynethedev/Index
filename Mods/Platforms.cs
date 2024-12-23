@@ -1,6 +1,7 @@
 ﻿using GorillaLocomotion.Climbing;
 using Index.Resources;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Index.Mods
 {
@@ -26,13 +27,13 @@ namespace Index.Mods
             platformL.name = "GorillaLeftPlatform";
             platformL.transform.position = Vector3.zero;
             platformL.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
-            var ClimbableL = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            ClimbableL.name = "PlatformStickyManagerL";
-            ClimbableL.transform.localScale = platformL.transform.localScale * 2;
-            ClimbableL.transform.SetParent(platformTransformL, false);
-            ClimbableL.GetComponent<Renderer>().enabled = false;
-            ClimbableL.AddComponent<GorillaClimbable>();
-            ClimbableL.layer = LayerMask.NameToLayer("GorillaInteractable");
+            var ClimbL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            ClimbL.name = "ClimbL";
+            ClimbL.AddComponent<GorillaClimbable>();
+            ClimbL.layer = LayerMask.NameToLayer("GorillaInteractable");
+            ClimbL.GetComponent<Renderer>().enabled = false;
+            ClimbL.transform.localScale = platformL.transform.localScale * 3;
+            ClimbL.transform.SetParent(platformL.transform);
 
             platformR = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformR.AddComponent<GorillaSurfaceOverride>();
@@ -41,13 +42,13 @@ namespace Index.Mods
             platformR.name = "GorillaRightPlatform";
             platformR.transform.position = Vector3.zero;
             platformR.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
-            var ClimbableR = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            ClimbableR.name = "PlatformStickyManagerR";
-            ClimbableR.transform.localScale = platformR.transform.localScale * 2;
-            ClimbableR.transform.SetParent(platformTransformR, false);
-            ClimbableR.GetComponent<Renderer>().enabled = false;
-            ClimbableR.AddComponent<GorillaClimbable>();
-            ClimbableR.layer = LayerMask.NameToLayer("GorillaInteractable");
+            var ClimbR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            ClimbR.name = "ClimbR";
+            ClimbR.AddComponent<GorillaClimbable>();
+            ClimbR.layer = LayerMask.NameToLayer("GorillaInteractable");
+            ClimbR.GetComponent<Renderer>().enabled = false;
+            ClimbR.transform.localScale = platformR.transform.localScale * 3;
+            ClimbR.transform.SetParent(platformR.transform);
 
             platformTransformL = platformL.transform;
             platformTransformR = platformR.transform;
@@ -64,7 +65,7 @@ namespace Index.Mods
                     platformTransformR.position = GorillaLocomotion.Player.Instance.rightControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformR.rotation = Quaternion.Euler(0, -90, 0);
                     platformR.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
-                    platformTransformR.Translate(platformOffsetR);
+                    // platformTransformR.Translate(platformOffsetR);
                 }
             }
             else
@@ -81,7 +82,7 @@ namespace Index.Mods
                     platformTransformL.position = GorillaLocomotion.Player.Instance.leftControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformL.rotation = Quaternion.Euler(0, -90, 0);
                     platformL.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
-                    platformTransformL.Translate(platformOffsetL);
+                    // platformTransformL.Translate(platformOffsetL);
                 }
             }
             else
