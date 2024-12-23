@@ -28,8 +28,8 @@ namespace Index.Mods
             platformL.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
             var ClimbableL = GameObject.CreatePrimitive(PrimitiveType.Cube);
             ClimbableL.name = "PlatformStickyManagerL";
-            ClimbableL.transform.localScale = platformR.transform.localScale * 2;
-            ClimbableL.transform.SetParent(platformTransformR, false);
+            ClimbableL.transform.localScale = platformL.transform.localScale * 2;
+            ClimbableL.transform.SetParent(platformTransformL, false);
             ClimbableL.GetComponent<Renderer>().enabled = false;
             ClimbableL.AddComponent<GorillaClimbable>();
             ClimbableL.layer = LayerMask.NameToLayer("GorillaInteractable");
