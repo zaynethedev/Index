@@ -1,7 +1,6 @@
 ﻿using GorillaLocomotion.Climbing;
 using Index.Resources;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Index.Mods
 {

@@ -1,7 +1,4 @@
 ﻿using Index.Resources;
-using GorillaLocomotion;
-using HarmonyLib;
-using Index.Mods;
 
 namespace Index.Mods
 {

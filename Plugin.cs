@@ -13,7 +13,7 @@ using BepInEx.Configuration;
 
 namespace Index
 {
-    [BepInPlugin("zaynethedev.Index", "Index", "0.1.0")]
+    [BepInPlugin("zaynethedev.Index", "Index", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -51,7 +51,6 @@ namespace Index
             DisableUnusedMods();
             initialized = true;
             indexPanel.transform.Find("IndexPanel/ModInfo").gameObject.GetComponent<TextMeshPro>().text = $"No mod selected\n\nNo mod selected";
-            Debug.Log("INDEX Initialization complete.");
         }
 
         void InitializePanelTransform()
@@ -68,20 +67,13 @@ namespace Index
             var indexPanelMods = indexTransform.Find("Mods");
             buttons.Add(indexTransform.Find("Page1").gameObject);
             buttons.Add(indexTransform.Find("Page2").gameObject);
-            buttons.Add(indexTransform.Find("Settings").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/NextMod").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/PreviousMod").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfig").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfig").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfigOption").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfigOption").gameObject);
             foreach (var btn in buttons)
             {
                 btn.AddComponent<ButtonManager>();
             }
             indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
-            indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v0.1.0a";
+            indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.0";
             indexPanel.SetActive(false);
         }
 
@@ -100,8 +92,6 @@ namespace Index
             modGameObject.transform.parent = indexPanel.transform.Find("Mods").transform;
             modInstance.Start();
             SetupModUI(modInstance);
-
-            Debug.Log($"INDEX // {modInstance.modName} initialized correctly.");
         }
 
         void SetupModUI(ModHandler modInstance)
@@ -170,35 +160,6 @@ namespace Index
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
-        }
-
-        private void OnGUI()
-        {
-            if (!inRoom) return;
-            GUI.Box(new Rect(10, 10, 480, 500), "Index Development UI");
-
-            int columns = 3;
-            int buttonWidth = 140;
-            int buttonHeight = 40;
-            int spacing = 10;
-            int xStart = 20;
-            int yStart = 40;
-
-            for (int i = 1; i < mods.Count; i++)
-            {
-                int row = (i - 1) / columns;
-                int column = (i - 1) % columns;
-                int xPos = xStart + (buttonWidth + spacing) * column;
-                int yPos = yStart + (buttonHeight + spacing) * row;
-
-                if (GUI.Button(new Rect(xPos, yPos, buttonWidth, buttonHeight), mods[i].modName))
-                {
-                    if (mods[i].enabled)
-                        mods[i].OnModDisabled();
-                    else
-                        mods[i].OnModEnabled();
-                }
-            }
         }
 
         void FixedUpdate()
