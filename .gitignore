@@ -390,3 +390,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+Directory.Build.props
