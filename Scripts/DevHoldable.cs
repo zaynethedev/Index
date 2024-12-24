@@ -13,7 +13,7 @@ namespace DevHoldableEngine
             SwappedLeft = true;
 
         public float
-            GrabDistance = 0.05f,
+            GrabDistance = 0.1f,
             ThrowForce = 1.75f;
 
         public virtual void OnGrab(bool isLeft)
