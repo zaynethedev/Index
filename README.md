@@ -4,6 +4,11 @@
   Index is a legal mod for Gorilla Tag adding a panel to the game with a variety of different mods. This is a mod, not a cheat, meaning it will only work in modded lobbies, compatible with Utilla or Newtilla. This is also not considered a mod menu, but a mod toggler/panel, like KyleTheScientist's 'Bark' or Graze's 'Grate'.
 </p>
 
+<p align="center">
+	<a href="https://github.com/zaynethedev/Index/releases"><img src="https://img.shields.io/github/downloads/Index/CustomPlatformManager/total.svg?style=for-the-badge"></a>
+	<a href="https://discord.gg/v9yKVNgwds"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
+</p>
+
 ## Mod List
 ### Platforms
 
