@@ -10,11 +10,10 @@ using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
 using BepInEx.Configuration;
-using GorillaGameModes;
 
 namespace Index
 {
-    [BepInPlugin("zaynethedev.Index", "Index", "1.0.0")]
+    [BepInPlugin("indexteam.Index", "Index", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -84,6 +83,7 @@ namespace Index
             var indexPanelMods = indexTransform.Find("Mods");
             buttons.Add(indexTransform.Find("Page1").gameObject);
             buttons.Add(indexTransform.Find("Page2").gameObject);
+            buttons.Add(indexTransform.Find("Settings").gameObject);
             foreach (var btn in buttons)
             {
                 btn.AddComponent<ButtonManager>();
