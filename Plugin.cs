@@ -10,11 +10,10 @@ using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
 using BepInEx.Configuration;
-using GorillaGameModes;
 
 namespace Index
 {
-    [BepInPlugin("zaynethedev.Index", "Index", "1.0.0")]
+    [BepInPlugin("indexteam.Index", "Index", "1.0.0")]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -23,6 +22,8 @@ namespace Index
         public List<GameObject> buttons = new List<GameObject>();
         public static Harmony harmony;
         public static ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "Index.cfg"), true);
+        public ConfigEntry<Vector3> panelColorOuter;
+        public ConfigEntry<Vector3> panelColorInner;
 
         void Start()
         {
@@ -35,6 +36,20 @@ namespace Index
         {
             var bundle = LoadAssetBundle("Index.Resources.index");
             indexPanel = bundle.LoadAsset<GameObject>("IndexPanel");
+            panelColorOuter = config.Bind(
+                section: "Index Panel",
+                key: "Outer Color",
+                defaultValue: new Vector3(0.439f, 0f, 1f),
+                description: "The outer panel color."
+            );
+
+            panelColorInner = config.Bind(
+                section: "Index Panel",
+                key: "Inner Color",
+                defaultValue: new Vector3(0f, 0.961f, 1f),
+                description: "The inner panel color."
+            );
+
         }
 
         void init()
@@ -68,6 +83,7 @@ namespace Index
             var indexPanelMods = indexTransform.Find("Mods");
             buttons.Add(indexTransform.Find("Page1").gameObject);
             buttons.Add(indexTransform.Find("Page2").gameObject);
+            buttons.Add(indexTransform.Find("Settings").gameObject);
             foreach (var btn in buttons)
             {
                 btn.AddComponent<ButtonManager>();
@@ -75,6 +91,8 @@ namespace Index
             indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
             indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.0";
+            indexTransform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
+            indexTransform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
             indexPanel.SetActive(false);
         }
 
@@ -88,9 +106,6 @@ namespace Index
             if (modInstance == null) return;
 
             mods.Add(modInstance);
-            GameObject modGameObject = new GameObject(modInstance.modName);
-            modGameObject.AddComponent(modType);
-            modGameObject.transform.parent = indexPanel.transform.Find("Mods").transform;
             modInstance.Start();
             SetupModUI(modInstance);
         }
@@ -147,7 +162,6 @@ namespace Index
             {
                 if (!new HashSet<string> { "page1", "page2" }.Contains(child.name))
                 {
-                    Debug.Log($"INDEX // Disabling unused mod. ModID: {child.name}");
                     child.gameObject.SetActive(false);
                 }
             }
@@ -158,9 +172,13 @@ namespace Index
             if (!initialized) return;
 
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
+            {
+                indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
+                indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
+            }
         }
 
         void FixedUpdate()
@@ -169,7 +187,6 @@ namespace Index
 
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
-                Debug.Log(NetworkSystem.Instance.GameModeString);
                 HandleModPanelVisibility();
                 foreach (ModHandler index in mods)
                 {
