@@ -10,6 +10,7 @@ using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
 using BepInEx.Configuration;
+using GorillaGameModes;
 
 namespace Index
 {
@@ -168,6 +169,7 @@ namespace Index
 
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
+                Debug.Log(NetworkSystem.Instance.GameModeString);
                 HandleModPanelVisibility();
                 foreach (ModHandler index in mods)
                 {
