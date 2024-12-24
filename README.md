@@ -4,10 +4,13 @@
   Index is a legal mod for Gorilla Tag adding a panel to the game with a variety of different mods. This is a mod, not a cheat, meaning it will only work in modded lobbies, compatible with Utilla or Newtilla. This is also not considered a mod menu, but a mod toggler/panel, like KyleTheScientist's 'Bark' or Graze's 'Grate'.
 </p>
 
-<p align="center">
-	<a href="https://github.com/zaynethedev/Index/releases"><img src="https://img.shields.io/github/downloads/zaynethedev/Index/total.svg?style=for-the-badge"></a>
-	<a href="https://discord.gg/v9yKVNgwds"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
-</p>
+```diff
+! DISCLAIMER !
+- THIS IS THE 'mod-testing' BRANCH OF INDEX. DO NOT COMPILE THIS VERSION OF INDEX
+- UNLESS YOU KNOW WHAT YOU ARE DOING, AS THIS VERSION OF INDEX MAY INCLUDE
+- BROKEN MODS, MISSING FILES, ETC. WE ARE NOT RESPONSIBLE FOR ANYTHING THAT
+- HAPPENS WHEN EDITING AND COMPILING THIS VERSION OF INDEX. THANK YOU :D
+```
 
 ## Mod List
 ### Platforms
@@ -62,15 +65,7 @@ Makes you small.
 
 Lets you create a checkpoint and teleport to it.
 
-### Disable Wind Barrier
-
-Disables all wind barriers. Credits to defaultuser0 for the help.
-
-### XRay
-
-A mod that allows you to see other players through walls.
-
-## There are a total of 15 mods on this mod panel.
+## There are a total of 13 mods on this mod panel.
 
 ## Disclaimer
 This product is not affiliated with Another Axiom Inc. or its videogames Gorilla Tag and Orion Drift and is not endorsed or otherwise sponsored by Another Axiom. Portions of the materials contained herein are property of Another Axiom. ©2021 Another Axiom Inc.

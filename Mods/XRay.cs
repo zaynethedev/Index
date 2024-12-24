@@ -12,12 +12,14 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
-            NetworkSystem.Instance.OnPlayerJoined += OnPlayerJoined;
-            NetworkSystem.Instance.OnPlayerLeft += OnPlayerLeft;
+            //NetworkSystem.Instance.OnPlayerJoined += OnPlayerJoined;
+            //NetworkSystem.Instance.OnPlayerLeft += OnPlayerLeft;
+            
         }
 
         private void OnPlayerJoined(NetPlayer player)
         {
+            /*
             foreach (VRRig rig in GorillaParent.instance.vrrigs)
             {
                 if (rig.OwningNetPlayer == player && !rig.isLocal)
@@ -28,10 +30,12 @@ namespace Index.Mods
                     rig.skeleton.renderer.material.color = rig.playerColor;
                 }
             }
+            */
         }
 
         private void OnPlayerLeft(NetPlayer player)
         {
+            /*
             foreach (VRRig rig in GorillaParent.instance.vrrigs)
             {
                 if (rig.OwningNetPlayer == player)
@@ -41,6 +45,7 @@ namespace Index.Mods
                     rig.skeleton.renderer.material.color = rig.playerColor;
                 }
             }
+            */
         }
 
         public override void OnModEnabled()
@@ -56,6 +61,7 @@ namespace Index.Mods
                     rig.skeleton.renderer.material.color = rig.playerColor;
                 }
             }
+            Plugin.Penis.SetActive(true);
         }
 
         public override void OnModDisabled()
@@ -69,6 +75,10 @@ namespace Index.Mods
                     rig.skeleton.renderer.material.shader = Shader.Find("GorillaTag/UberShader");
                 }
             }
+            Plugin.Penis.SetActive(false);
+
+
+
         }
     }
 }
