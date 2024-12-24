@@ -9,15 +9,13 @@ namespace Index.Scripts
 {
     public class XRayPUNCallbacks : MonoBehaviourPunCallbacks
     {
-        //i really shouldn't be fucking with PUN... oh well ¯\_(ツ)_/¯
-        //btw wrap everything in a try/catch except the 'base.*' so shit dosent get fucked
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             try
             {
                 foreach (VRRig rig in GorillaParent.instance.vrrigs)
                 {
-                    if (/*rig.OwningNetPlayer == newPlayer && */!rig.isLocal)
+                    if (!rig.isLocal)
                     {
                         rig.skeleton.enabled = true;
                         rig.skeleton.renderer.enabled = true;

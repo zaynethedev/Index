@@ -10,7 +10,6 @@ using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
 using BepInEx.Configuration;
-using GorillaGameModes;
 using Index.Scripts;
 
 namespace Index
@@ -24,7 +23,7 @@ namespace Index
         public List<GameObject> buttons = new List<GameObject>();
         public static Harmony harmony;
         public static ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "Index.cfg"), true);
-        public static GameObject Penis;
+        public static GameObject puncallbacks_xray;
         public ConfigEntry<Vector3> panelColorOuter;
         public ConfigEntry<Vector3> panelColorInner;
 
@@ -32,9 +31,9 @@ namespace Index
         {
             harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "zaynethedev.Index");
             preInit();
-            Penis = new GameObject("XRayPunCallbacks");
-            Penis.AddComponent<XRayPUNCallbacks>();
-            Penis.SetActive(false);
+            puncallbacks_xray = new GameObject("puncallbacks_xray");
+            puncallbacks_xray.AddComponent<XRayPUNCallbacks>();
+            puncallbacks_xray.SetActive(false);
             GorillaTagger.OnPlayerSpawned(init);
         }
 
