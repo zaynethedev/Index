@@ -9,9 +9,7 @@ using TMPro;
 using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
-using UnityEngine.InputSystem;
-using Index.Mods;
-using Photon.Pun;
+using BepInEx.Configuration;
 
 namespace Index
 {
@@ -23,6 +21,7 @@ namespace Index
         public static GameObject indexPanel;
         public List<GameObject> buttons = new List<GameObject>();
         public static Harmony harmony;
+        public static ConfigFile config;
 
         void Start()
         {
@@ -58,7 +57,7 @@ namespace Index
         void InitializePanelTransform()
         {
             var indexTransform = indexPanel.transform;
-            indexTransform.localPosition = new Vector3(-67.3437f, 12f, -81.9055f);
+            indexTransform.localPosition = new Vector3(-67.3437f, 11.6f, -81.9055f);
             indexTransform.localScale = new Vector3(0.16f, 0.16f, 0.16f);
             indexTransform.rotation = Quaternion.Euler(0f, 335f, 0f);
         }
@@ -69,7 +68,6 @@ namespace Index
             var indexPanelMods = indexTransform.Find("Mods");
             buttons.Add(indexTransform.Find("Page1").gameObject);
             buttons.Add(indexTransform.Find("Page2").gameObject);
-            buttons.Add(indexTransform.Find("Page3").gameObject);
             buttons.Add(indexTransform.Find("Settings").gameObject);
             buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/NextMod").gameObject);
             buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/PreviousMod").gameObject);
@@ -81,8 +79,8 @@ namespace Index
             {
                 btn.AddComponent<ButtonManager>();
             }
+            indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
-            indexTransform.Find("Mods/page3").gameObject.SetActive(false);
             indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v0.1.0a";
             indexPanel.SetActive(false);
         }
@@ -144,13 +142,10 @@ namespace Index
             var modName = modPanel.gameObject.name;
             var page1 = indexPanel.transform.Find("Mods/page1");
             var page2 = indexPanel.transform.Find("Mods/page2");
-            var page3 = indexPanel.transform.Find("Mods/page3");
             if (new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" }.Contains(modName))
                 modPanel.SetParent(page1, false);
             else if (new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" }.Contains(modName))
                 modPanel.SetParent(page2, false);
-            else if (new HashSet<string> { "17", "18", "19", "20", "21", "22", "23", "24" }.Contains(modName))
-                modPanel.SetParent(page3, false);
         }
 
         void DisableUnusedMods()
@@ -159,7 +154,7 @@ namespace Index
 
             foreach (Transform child in indexPanelMods)
             {
-                if (!new HashSet<string> { "page1", "page2", "page3" }.Contains(child.name))
+                if (!new HashSet<string> { "page1", "page2" }.Contains(child.name))
                 {
                     Debug.Log($"INDEX // Disabling unused mod. ModID: {child.name}");
                     child.gameObject.SetActive(false);
@@ -248,7 +243,7 @@ namespace Index
             if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
                 indexPanel.transform.rotation = GorillaTagger.Instance.mainCamera.transform.transform.rotation;
-                indexPanel.transform.position = Player.Instance.headCollider.transform.position + Player.Instance.headCollider.transform.forward;
+                indexPanel.transform.position = Player.Instance.headCollider.transform.forward;
             }
 
             if (!indexPanel.activeSelf)
