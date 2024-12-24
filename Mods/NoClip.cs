@@ -1,26 +1,12 @@
 ﻿using Index.Resources;
-using GorillaLocomotion;
 using UnityEngine;
-using HarmonyLib;
-using Index.Mods;
-using BepInEx;
-using System.Collections.Generic;
-using System;
+
 namespace Index.Mods
 {
-    class NoClip : IndexMod
+    [IndexMod("No-Clip", "Makes you non-collidable.", "NoClip", 9)]
+    class NoClip : ModHandler
     {
         public static NoClip instance;
-
-        public NoClip()
-        {
-            modName = "NoClip";
-            modDescription = "Makes you non-collidable.";
-            modGUID = "NoClip";
-            modID = 9;
-            modType = ModType.gameplay;
-
-        }
 
         public override void Start()
         {
@@ -58,6 +44,11 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
+            MeshCollider[] array = NoClipHelper.Instance.FindAllObjectsOfType<MeshCollider>();
+            foreach (MeshCollider meshCollider in array)
+            {
+                meshCollider.enabled = true;
+            }
         }
         public override void OnModEnabled()
         {

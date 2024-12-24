@@ -1,26 +1,26 @@
 ﻿using Index.Resources;
 using GorillaLocomotion;
 using UnityEngine;
+using BepInEx.Configuration;
 
 namespace Index.Mods
 {
-    class Fly : IndexMod
+    [IndexMod("Fly", "Allows you to glide in the air with your controller buttons.", "Fly", 3)]
+    class Fly : ModHandler
     {
         public static Fly instance;
-
-        public Fly()
-        {
-            modName = "Fly";
-            modDescription = "Allows you to glide in the air with your controller buttons.";
-            modGUID = "Fly";
-            modID = 3;
-            modType = ModType.gameplay;
-        }
+        public ConfigEntry<float> flySpeed;
 
         public override void Start()
         {
             base.Start();
             instance = this;
+            flySpeed = Plugin.config.Bind(
+                section: "Fly",
+                key: "Speed Multiplier",
+                defaultValue: 7.5f,
+                description: "Changes your fly speed. 7.5f = slow, 22.5f = fast."
+            );
         }
         public override void OnFixedUpdate()
         {
@@ -29,7 +29,7 @@ namespace Index.Mods
             {
                 var direction = Player.Instance.headCollider.transform.forward;
                 var rigidbody = Player.Instance.bodyCollider.attachedRigidbody;
-                Vector3 velocity = direction * 7.5f;
+                Vector3 velocity = direction * Mathf.Clamp(flySpeed.Value, 7.5f, 22.5f);
                 rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, velocity, 0.25f);
             }
 

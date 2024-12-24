@@ -1,47 +1,45 @@
-using ExitGames.Client.Photon;
-using GorillaNetworking;
+using BepInEx.Configuration;
 using Index.Resources;
-using Photon.Pun;
+using UnityEngine;
 
 namespace Index.Mods
 {
-    class BigMonke : IndexMod
+    [IndexMod("Big Monke", "Makes you big.", "BigMonke", 11)]
+    class BigMonke : ModHandler
     {
         public static BigMonke instance;
-        public Hashtable hash = new Hashtable();
-
-        public BigMonke()
-        {
-            modName = "Big Monke";
-            modDescription = "Makes you big.";
-            modGUID = "BigMonke";
-            modID = 11;
-            modType = ModType.gameplay;
-        }
+        public Vector3 originalIndexPanelSize = new Vector3(0.16f, 0.16f, 0.16f);
+        public ConfigEntry<float> size;
 
         public override void Start()
         {
             base.Start();
             instance = this;
+            size = Plugin.config.Bind(
+                section: "Size Changers",
+                key: "Big Monkke Size",
+                defaultValue: 1.25f,
+                description: "Changes your size. 1 = slightly big, 2 = giant"
+            );
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
-            GorillaLocomotion.Player.Instance.scale = 2f;
+            GorillaLocomotion.Player.Instance.scale = Mathf.Clamp(size.Value, 1, 2);
         }
         public override void OnModDisabled()
         {
             base.OnModDisabled();
-            hash.AddOrUpdate("indexSize", 1f);
-            PhotonNetwork.SetPlayerCustomProperties(hash);
+            Plugin.indexPanel.transform.localScale = originalIndexPanelSize;
         }
 
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            hash.AddOrUpdate("indexSize", 2f);
-            PhotonNetwork.SetPlayerCustomProperties(hash);
+            Plugin.indexPanel.transform.localScale *= Mathf.Clamp(size.Value, 1, 2);
+            if (SmallMonke.instance.enabled)
+                SmallMonke.instance.OnModDisabled();
         }
     }
 }

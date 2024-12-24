@@ -1,26 +1,26 @@
 using Index.Resources;
-using UnityEngine;
 using GorillaLocomotion;
+using BepInEx.Configuration;
+using UnityEngine;
 
 namespace Index.Mods
 {
-    class BounceMonke : IndexMod
+    [IndexMod("Bounce Monke", "Makes you bouncy.", "BounceMonke", 10)]
+    class BounceMonke : ModHandler
     {
         public static BounceMonke instance;
-
-        public BounceMonke()
-        {
-            modName = "Bounce Monke";
-            modDescription = "Makes you bouncy.";
-            modGUID = "BounceMonke";
-            modID = 10;
-            modType = ModType.gameplay;
-        }
+        public ConfigEntry<float> bounceMultiplier;
 
         public override void Start()
         {
             base.Start();
             instance = this;
+            bounceMultiplier = Plugin.config.Bind(
+                section: "Bounce Monke",
+                key: "Bounce Multiplier",
+                defaultValue: 1f,
+                description: "Changes your bounce amount. 1f = bouncy, 5f = extremely bouncy."
+            );
         }
 
         public override void OnModDisabled()
@@ -32,7 +32,7 @@ namespace Index.Mods
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            Player.Instance.bodyCollider.material.bounciness = 0.75f;
+            Player.Instance.bodyCollider.material.bounciness = Mathf.Clamp(bounceMultiplier.Value, 1f, 5f);
         }
     }
 }
