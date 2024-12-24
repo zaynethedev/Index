@@ -21,7 +21,7 @@ namespace Index
         public static GameObject indexPanel;
         public List<GameObject> buttons = new List<GameObject>();
         public static Harmony harmony;
-        public static ConfigFile config;
+        public static ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "Index.cfg"), true);
 
         void Start()
         {
@@ -160,6 +160,35 @@ namespace Index
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
+        }
+
+        private void OnGUI()
+        {
+            if (!inRoom) return;
+            GUI.Box(new Rect(10, 10, 480, 500), "Index Development UI");
+
+            int columns = 3;
+            int buttonWidth = 140;
+            int buttonHeight = 40;
+            int spacing = 10;
+            int xStart = 20;
+            int yStart = 40;
+
+            for (int i = 1; i < mods.Count; i++)
+            {
+                int row = (i - 1) / columns;
+                int column = (i - 1) % columns;
+                int xPos = xStart + (buttonWidth + spacing) * column;
+                int yPos = yStart + (buttonHeight + spacing) * row;
+
+                if (GUI.Button(new Rect(xPos, yPos, buttonWidth, buttonHeight), mods[i].modName))
+                {
+                    if (mods[i].enabled)
+                        mods[i].OnModDisabled();
+                    else
+                        mods[i].OnModEnabled();
+                }
+            }
         }
 
         void FixedUpdate()

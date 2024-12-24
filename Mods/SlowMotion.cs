@@ -16,9 +16,9 @@ namespace Index.Mods
             instance = this;
             scale = Plugin.config.Bind(
                 section: "Slow Motion",
-                key: "scale",
+                key: "Time Scale",
                 defaultValue: 0.35f,
-                description: "How fast you fly"
+                description: "How slow the game runs upon enabling the mod."
             );
         }
         public override void OnFixedUpdate()

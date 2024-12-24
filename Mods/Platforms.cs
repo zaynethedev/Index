@@ -1,4 +1,5 @@
-﻿using GorillaLocomotion.Climbing;
+﻿using BepInEx.Configuration;
+using GorillaLocomotion.Climbing;
 using Index.Resources;
 using UnityEngine;
 
@@ -8,17 +9,23 @@ namespace Index.Mods
     class Platforms : ModHandler
     {
         public static Platforms instance;
-        public Vector3 platformOffsetL = new Vector3(0f, -0.025f, 0f), platformOffsetR = new Vector3(0f, -0.025f, 0f);
         public GameObject platformL, platformR;
         public Transform platformTransformL, platformTransformR;
         public static bool platSetR = false, platSetL = false;
         public Vector3 platSize = new Vector3(0.3f, 0.06f, 0.3f);
         public Color platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
+        public ConfigEntry<bool> isPlatformsSticky;
 
         public override void Start()
         {
             base.Start();
             instance = this;
+            isPlatformsSticky = Plugin.config.Bind(
+                section: "Platforms",
+                key: "Sticky Platforms",
+                defaultValue: false,
+                description: "TRUE: Makes your hands stick to the platforms, as if they were glue.\n FALSE: Makes the platforms loose, and your hands will not stick to them."
+            );
             platformL = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformL.AddComponent<GorillaSurfaceOverride>();
             platformL.GetComponent<MeshRenderer>().material = new Material(Plugin.indexPanel.transform.Find("ShaderInit_Platforms").GetComponent<MeshRenderer>().materials[0]);
@@ -26,13 +33,6 @@ namespace Index.Mods
             platformL.name = "GorillaLeftPlatform";
             platformL.transform.position = Vector3.zero;
             platformL.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
-            var ClimbL = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            ClimbL.name = "ClimbL";
-            ClimbL.AddComponent<GorillaClimbable>();
-            ClimbL.layer = LayerMask.NameToLayer("GorillaInteractable");
-            ClimbL.GetComponent<Renderer>().enabled = false;
-            ClimbL.transform.localScale = platformL.transform.localScale * 3;
-            ClimbL.transform.SetParent(platformL.transform);
 
             platformR = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformR.AddComponent<GorillaSurfaceOverride>();
@@ -41,16 +41,25 @@ namespace Index.Mods
             platformR.name = "GorillaRightPlatform";
             platformR.transform.position = Vector3.zero;
             platformR.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
-            var ClimbR = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            ClimbR.name = "ClimbR";
-            ClimbR.AddComponent<GorillaClimbable>();
-            ClimbR.layer = LayerMask.NameToLayer("GorillaInteractable");
-            ClimbR.GetComponent<Renderer>().enabled = false;
-            ClimbR.transform.localScale = platformR.transform.localScale * 3;
-            ClimbR.transform.SetParent(platformR.transform);
-
             platformTransformL = platformL.transform;
             platformTransformR = platformR.transform;
+            if (isPlatformsSticky.Value)
+            {
+                var ClimbL = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                ClimbL.name = "ClimbL";
+                ClimbL.AddComponent<GorillaClimbable>();
+                ClimbL.layer = LayerMask.NameToLayer("GorillaInteractable");
+                ClimbL.GetComponent<Renderer>().enabled = false;
+                ClimbL.transform.localScale = platformL.transform.localScale * 3;
+                ClimbL.transform.SetParent(platformL.transform);
+                var ClimbR = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                ClimbR.name = "ClimbR";
+                ClimbR.AddComponent<GorillaClimbable>();
+                ClimbR.layer = LayerMask.NameToLayer("GorillaInteractable");
+                ClimbR.GetComponent<Renderer>().enabled = false;
+                ClimbR.transform.localScale = platformR.transform.localScale * 3;
+                ClimbR.transform.SetParent(platformR.transform);
+            }
         }
         public override void OnFixedUpdate()
         {
@@ -64,7 +73,6 @@ namespace Index.Mods
                     platformTransformR.position = GorillaLocomotion.Player.Instance.rightControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformR.rotation = Quaternion.Euler(0, -90, 0);
                     platformR.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
-                    // platformTransformR.Translate(platformOffsetR);
                 }
             }
             else
@@ -81,7 +89,6 @@ namespace Index.Mods
                     platformTransformL.position = GorillaLocomotion.Player.Instance.leftControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformL.rotation = Quaternion.Euler(0, -90, 0);
                     platformL.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
-                    // platformTransformL.Translate(platformOffsetL);
                 }
             }
             else

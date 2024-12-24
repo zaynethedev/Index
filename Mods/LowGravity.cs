@@ -1,4 +1,5 @@
-﻿using Index.Resources;
+﻿using BepInEx.Configuration;
+using Index.Resources;
 using UnityEngine;
 
 namespace Index.Mods
@@ -7,7 +8,7 @@ namespace Index.Mods
     class LowGravity : ModHandler
     {
         public static LowGravity instance;
-        public float gravityScale = .25f;
+        public ConfigEntry<float> gravityScale;
         Vector3 grav;
 
         public override void Start()
@@ -15,12 +16,18 @@ namespace Index.Mods
             base.Start();
             instance = this;
             grav = Physics.gravity;
+            gravityScale = Plugin.config.Bind(
+                section: "Gravity",
+                key: "Gravity Multiplier",
+                defaultValue: 0.25f,
+                description: "Changes your gravity. 0 = no gravity, 1 = normal gravity."
+            );
         }
 
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            Physics.gravity = grav * gravityScale;
+            Physics.gravity = grav * Mathf.Clamp(gravityScale.Value, 0, 1);
         }
 
         public override void OnModDisabled()
