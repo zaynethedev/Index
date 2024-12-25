@@ -90,9 +90,7 @@ namespace Index
             }
             indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
-            indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.0";
-            indexTransform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
-            indexTransform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
+            indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.1.0";
             indexPanel.SetActive(false);
         }
 
