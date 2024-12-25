@@ -93,8 +93,8 @@ namespace Index
             buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/NextMod").gameObject);
             buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfig").gameObject);
             buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfig").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfigOption").gameObject);
             buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfigOption").gameObject);
+            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfigOption").gameObject);
             foreach (var btn in buttons)
             {
                 btn.AddComponent<ButtonManager>();
