@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 namespace Index.Resources
 {
@@ -9,7 +10,7 @@ namespace Index.Resources
         public static ButtonManager instance;
         public static bool isCooldown = false;
         public float cooldownTime = 0.1f;
-        public int modIDSettings = 1;
+        public int modIDSettings = 0;
         public static Material unselectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_UnselectedButton").GetComponent<MeshRenderer>().materials[0]);
         public static Material selectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_SelectedButton").GetComponent<MeshRenderer>().materials[0]);
         public float debounceTime = 0.25f;
@@ -92,6 +93,42 @@ namespace Index.Resources
                             Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
                             Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(true);
                         }
+                        break;
+                    case "NextMod":
+                        if (modIDSettings != 0)
+                        {
+                            modIDSettings++;
+                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
+                        }
+                        else
+                        {
+                            modIDSettings = 1;
+                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
+                        }
+                        break;
+                    case "PreviousMod":
+                        if (modIDSettings != 0)
+                        {
+                            modIDSettings--;
+                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
+                        }
+                        else
+                        {
+                            modIDSettings = Plugin.mods.Count;
+                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
+                        }
+                        break;
+                    case "NextConfig":
+                        // next config for the Plugin.mods[modIDSettings].modName, ofc check if such config exists (Plugin.config) is the configfile where everything is added
+                        break;
+                    case "PreviousConfig":
+                        // previous config for the Plugin.mods[modIDSettings].modName, ofc check if such config exists (Plugin.config) is the configfile where everything is added
+                        break;
+                    case "NextConfigOption":
+                        // next config option for the config (if its a boolean and the currently set option is false, set to true, if its a float, this is +)
+                        break;
+                    case "PreviousConfigOption":
+                        // previous config option for the config (if its a boolean and the currently set option is false, set to true, if its a float, this is +)
                         break;
                 }
             }

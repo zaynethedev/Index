@@ -96,6 +96,9 @@ namespace Index
             indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
             indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.1.0";
+            indexTransform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = "NO MOD SELECTED";
+            indexTransform.Find("SettingsPage/ModConfig/ModConfigPanel/Text").GetComponent<TextMeshPro>().text = "NO MOD SELECTED";
+            indexTransform.Find("SettingsPage/ModConfig/ConfigOptionPanel/Text").GetComponent<TextMeshPro>().text = "NO CONFIG SELECTED";
             indexPanel.SetActive(false);
         }
 

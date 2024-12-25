@@ -21,8 +21,8 @@ namespace Index.Mods
         {
             base.SetConfig();
             size = Plugin.config.Bind(
-                section: "Size Changers",
-                key: "Small Monkke Size",
+                section: "Small Monke",
+                key: "Size",
                 defaultValue: 0.25f,
                 description: "Changes your size. 0.1 = very small, 0.9 = slightly small"
             );
