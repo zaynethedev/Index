@@ -16,6 +16,11 @@ namespace Index.Mods
             base.Start();
             instance = this;
             grav = Physics.gravity;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             gravityScale = Plugin.config.Bind(
                 section: "Gravity",
                 key: "Gravity Multiplier",

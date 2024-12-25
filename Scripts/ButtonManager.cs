@@ -85,6 +85,14 @@ namespace Index.Resources
                             Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
                         }
                         break;
+                    case "Settings":
+                        if (!Plugin.indexPanel.transform.Find("Mods/page2").gameObject.activeSelf)
+                        {
+                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
+                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(true);
+                        }
+                        break;
                 }
             }
         }

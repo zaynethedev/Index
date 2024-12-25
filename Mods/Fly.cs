@@ -15,6 +15,11 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             flySpeed = Plugin.config.Bind(
                 section: "Fly",
                 key: "Speed Multiplier",
@@ -22,6 +27,7 @@ namespace Index.Mods
                 description: "Changes your fly speed. 7.5f = slow, 22.5f = fast."
             );
         }
+
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();

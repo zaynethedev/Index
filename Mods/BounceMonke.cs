@@ -9,18 +9,11 @@ namespace Index.Mods
     class BounceMonke : ModHandler
     {
         public static BounceMonke instance;
-        public ConfigEntry<float> bounceMultiplier;
 
         public override void Start()
         {
             base.Start();
             instance = this;
-            bounceMultiplier = Plugin.config.Bind(
-                section: "Bounce Monke",
-                key: "Bounce Multiplier",
-                defaultValue: 1f,
-                description: "Changes your bounce amount. 1f = bouncy, 5f = extremely bouncy."
-            );
         }
 
         public override void OnModDisabled()
@@ -32,7 +25,7 @@ namespace Index.Mods
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            Player.Instance.bodyCollider.material.bounciness = Mathf.Clamp(bounceMultiplier.Value, 1f, 5f);
+            Player.Instance.bodyCollider.material.bounciness = 1f;
         }
     }
 }

@@ -15,6 +15,11 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             size = Plugin.config.Bind(
                 section: "Size Changers",
                 key: "Big Monkke Size",

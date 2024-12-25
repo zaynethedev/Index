@@ -15,6 +15,11 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             speed = Plugin.config.Bind(
                 section: "Speed Boost",
                 key: "Speed Multiplier",
@@ -22,6 +27,7 @@ namespace Index.Mods
                 description: "Changes your speed. 1 = normal speed, 3 = very fast."
             );
         }
+
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();

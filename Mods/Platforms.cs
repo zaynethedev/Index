@@ -20,12 +20,6 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
-            isPlatformsSticky = Plugin.config.Bind(
-                section: "Platforms",
-                key: "Sticky Platforms",
-                defaultValue: false,
-                description: "TRUE: Makes your hands stick to the platforms, as if they were glue.\n FALSE: Makes the platforms loose, and your hands will not stick to them."
-            );
             platformL = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformL.AddComponent<GorillaSurfaceOverride>();
             platformL.GetComponent<MeshRenderer>().material = new Material(Plugin.indexPanel.transform.Find("ShaderInit_Platforms").GetComponent<MeshRenderer>().materials[0]);
@@ -61,6 +55,18 @@ namespace Index.Mods
                 ClimbR.transform.SetParent(platformR.transform);
             }
         }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
+            isPlatformsSticky = Plugin.config.Bind(
+                section: "Platforms",
+                key: "Sticky Platforms",
+                defaultValue: false,
+                description: "TRUE: Makes your hands stick to the platforms, as if they were glue.\n FALSE: Makes the platforms loose, and your hands will not stick to them."
+            );
+        }
+
         public override void OnFixedUpdate()
         {
             base.OnFixedUpdate();

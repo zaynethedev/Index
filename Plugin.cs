@@ -10,6 +10,7 @@ using DevHoldableEngine;
 using GorillaLocomotion;
 using HarmonyLib;
 using BepInEx.Configuration;
+using Index.Scripts;
 
 namespace Index
 {
@@ -22,6 +23,7 @@ namespace Index
         public List<GameObject> buttons = new List<GameObject>();
         public static Harmony harmony;
         public static ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "Index.cfg"), true);
+        public static GameObject puncallbacks_xray;
         public ConfigEntry<Vector3> panelColorOuter;
         public ConfigEntry<Vector3> panelColorInner;
 
@@ -30,6 +32,9 @@ namespace Index
             harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "indexteam.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
+            puncallbacks_xray = new GameObject("puncallbacks_xray");
+            puncallbacks_xray.AddComponent<XRayHelper>();
+            puncallbacks_xray.SetActive(false);
         }
 
         void preInit()
@@ -104,6 +109,7 @@ namespace Index
             if (modInstance == null) return;
 
             mods.Add(modInstance);
+            modInstance.SetConfig();
             modInstance.Start();
             SetupModUI(modInstance);
         }
@@ -171,8 +177,6 @@ namespace Index
 
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
-                indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
-                indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
                 foreach (ModHandler index in mods)
                     if (index.enabled)
                         index.OnUpdate();
