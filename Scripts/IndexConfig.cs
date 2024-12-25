@@ -1,17 +1,18 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Index.Scripts
 {
     public class IndexConfig
     {
+        // only change this when adding new mods + make sure you add it to the dictionary
         private enum Mods
         {
             BigMonke,
             BombMonke,
             BounceMonke,
             CarMonke,
-            Checkpoints,
             Fly,
             LowGravity,
             Platforms,
@@ -19,11 +20,8 @@ namespace Index.Scripts
             SpeedBoost,
             MenuColor
         }
-        private enum config
-        {
 
-        }
-
+        // dont touch this stuff
         private Mods currentMod;
         private TextMeshPro selmodtext;
         private TextMeshPro selmodtext2;
@@ -69,11 +67,35 @@ namespace Index.Scripts
 
         private void TextStuff()
         {
+            // mod slectection text
             selmodtext.text = currentMod.ToString();
 
-            selmodtext2.text = currentConfigOpt.ToString();
+            // config text
+            Dictionary<Mods, string> modDescriptions = new Dictionary<Mods, string>()
+            {
+                { Mods.Platforms, "Sticky" },
+                { Mods.SmallMonke, "0.9 = not that small, 0.1 = very small" },
+                { Mods.SpeedBoost, "1 = normal speed, 3 = very fast" },
+                { Mods.MenuColor, "Color" },
+                { Mods.BigMonke, "1 = big, 2 = very big" },
+                { Mods.BombMonke, "N/A for now" },
+                { Mods.BounceMonke, "1 = normal bounce, 5 = SUPER BOUNCE" },
+                { Mods.CarMonke, "N/A for now" },
+                { Mods.Fly, "1 = slow, 2 = fast" },
+                { Mods.LowGravity, "0 = no gravity, 1 = normal" }
+            };
 
-            selmodtext3.text = currentConfig.ToString();
+            if (modDescriptions.TryGetValue(currentMod, out string description))
+            {
+                selmodtext3.text = description;
+            }
+            else
+            {
+                selmodtext3.text = "ERROR";
+            }
+
+            // config option text
+
 
         }
     }
