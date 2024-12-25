@@ -19,7 +19,10 @@ namespace Index.Scripts
             SpeedBoost,
             MenuColor
         }
+        private enum config
+        {
 
+        }
 
         private Mods currentMod;
         private TextMeshPro selmodtext;
