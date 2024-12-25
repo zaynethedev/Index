@@ -27,7 +27,7 @@ namespace Index
 
         void Start()
         {
-            harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "zaynethedev.Index");
+            harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "indexteam.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
         }
