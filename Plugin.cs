@@ -89,12 +89,6 @@ namespace Index
             buttons.Add(indexTransform.Find("Page1").gameObject);
             buttons.Add(indexTransform.Find("Page2").gameObject);
             buttons.Add(indexTransform.Find("Settings").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/PreviousMod").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/SelectedMod/NextMod").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfig").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfig").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/NextConfigOption").gameObject);
-            buttons.Add(indexTransform.Find("SettingsPage/ModConfig/PreviousConfigOption").gameObject);
             foreach (var btn in buttons)
             {
                 btn.AddComponent<ButtonManager>();
@@ -102,9 +96,6 @@ namespace Index
             indexTransform.Find("Mods/page1").gameObject.SetActive(true);
             indexTransform.Find("Mods/page2").gameObject.SetActive(false);
             indexTransform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.1.0";
-            indexTransform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = "NO MOD SELECTED";
-            indexTransform.Find("SettingsPage/ModConfig/ModConfigPanel/Text").GetComponent<TextMeshPro>().text = "NO MOD SELECTED";
-            indexTransform.Find("SettingsPage/ModConfig/ConfigOptionPanel/Text").GetComponent<TextMeshPro>().text = "NO CONFIG SELECTED";
             indexPanel.SetActive(false);
         }
 
