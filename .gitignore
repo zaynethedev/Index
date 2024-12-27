@@ -94,9 +94,6 @@ StyleCopReport.xml
 *.scc
 *.props
 *.targets
-*.csproj
-*.Directory.Build.props
-*.Directory.Build.targets
 
 # Chutzpah Test files
 _Chutzpah*
@@ -237,7 +234,6 @@ ClientBin/
 ~$*
 *~
 *.dbmdl
-*.csproj
 *.dbproj.schemaview
 *.jfm
 *.pfx
@@ -387,6 +383,3 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
-Directory.Build.props
-Directory.Build.targets
-*.csproj
