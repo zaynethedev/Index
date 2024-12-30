@@ -1,8 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace Index.Scripts
