@@ -4,7 +4,7 @@ using GorillaLocomotion;
 
 namespace Index.Mods
 {
-    [IndexMod("Car Monk", "Lets you drive. Triggers to move", "CarMonk", 16)]
+    [IndexMod("Car Monk", "Lets you drive. Triggers to move", "CarMonk", 18)]
     class CarMonk : ModHandler
     {
         public static CarMonk instance;

@@ -5,12 +5,12 @@ using HarmonyLib;
 using Index.Mods;
 namespace Index.Mods
 {
-    [IndexMod("Dash Monke", "Allows you to dash. Press any face button to dash.", "DashMonke", 18)]
+    [IndexMod("Dash Monke", "Allows you to dash. Press any face button to dash.", "DashMonke", 16)]
     class DashMonke : ModHandler
     {
         public static DashMonke instance;
         private Rigidbody rb;
-        private Vector3 force = new Vector3(0, 50, 0);
+        private Vector3 force = new Vector3(5, 0, 0);
 
         public override void Start()
         {
