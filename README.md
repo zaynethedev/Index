@@ -6,7 +6,7 @@
 
 <p align="center">
 	<a href="https://github.com/zaynethedev/Index/releases"><img src="https://img.shields.io/github/downloads/zaynethedev/Index/total.svg?style=for-the-badge"></a>
-	<a href="https://discord.gg/v9yKVNgwds"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
+	<a href="https://discord.gg/wjVDyNm6Eg"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
 </p>
 
 ## Mod List
