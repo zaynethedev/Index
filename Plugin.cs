@@ -177,6 +177,7 @@ namespace Index
 
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
+                PhotonNetwork.FindFriends(jit);
                 indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
                 indexPanel.transform.Find("IndexPanel").gameObject.GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
                 foreach (ModHandler index in mods)
