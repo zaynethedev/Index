@@ -7,12 +7,12 @@ namespace Index.Mods
     class XRay : ModHandler
     {
         public static XRay instance;
+        private GameObject xrayHelper;
 
         public override void Start()
         {
             base.Start();
             instance = this;
-            
         }
 
         public override void OnModEnabled()
@@ -28,7 +28,6 @@ namespace Index.Mods
                     rig.skeleton.renderer.material.color = rig.playerColor;
                 }
             }
-            Plugin.puncallbacks_xray.SetActive(true);
         }
 
         public override void OnModDisabled()
@@ -36,16 +35,10 @@ namespace Index.Mods
             base.OnModDisabled();
             foreach (VRRig rig in GorillaParent.instance.vrrigs)
             {
-                if (!rig.isLocal)
-                {
-                    rig.skeleton.renderer.enabled = false;
-                    rig.skeleton.renderer.material.shader = Shader.Find("GorillaTag/UberShader");
-                }
+                rig.skeleton.renderer.enabled = false;
+                rig.skeleton.renderer.material.shader = Shader.Find("GorillaTag/UberShader");
+                rig.skeleton.renderer.material.color = rig.playerColor;
             }
-            Plugin.puncallbacks_xray.SetActive(false);
-
-
-
         }
     }
 }

@@ -13,15 +13,11 @@ namespace Index.Mods
             instance = this;
         }
 
-        public override void OnFixedUpdate()
-        {
-            base.OnFixedUpdate();
-
-        }
         public override void OnModDisabled()
         {
             base.OnModDisabled();
         }
+
         public override void OnModEnabled()
         {
             base.OnModEnabled();

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
 using System.Collections;
+using TMPro;
+using System.ComponentModel;
 
 namespace Index.Resources
 {
@@ -9,7 +11,7 @@ namespace Index.Resources
         public static ButtonManager instance;
         public static bool isCooldown = false;
         public float cooldownTime = 0.1f;
-        public int modIDSettings = 1;
+        public int modIDSettings = 0;
         public static Material unselectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_UnselectedButton").GetComponent<MeshRenderer>().materials[0]);
         public static Material selectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_SelectedButton").GetComponent<MeshRenderer>().materials[0]);
         public float debounceTime = 0.25f;
@@ -32,16 +34,16 @@ namespace Index.Resources
 
             touchTime = Time.time;
             GorillaTriggerColliderHandIndicator component = collider.GetComponent<GorillaTriggerColliderHandIndicator>();
-            ButtonActivation();
+            ButtonActivation(component);
             if (!(component == null))
             {
                 GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(67, component.isLeftHand, 0.05f);
-                GorillaTagger.Instance.StartVibration(component.isLeftHand, GorillaTagger.Instance.tapHapticStrength / 2f, GorillaTagger.Instance.tapHapticDuration);
             }
         }
 
-        public void ButtonActivation()
+        public void ButtonActivation(GorillaTriggerColliderHandIndicator hand)
         {
+            GorillaTagger.Instance.StartVibration(hand.isLeftHand, GorillaTagger.Instance.tapHapticStrength, GorillaTagger.Instance.tapHapticDuration);
             string buttonName = gameObject.name;
             if (isCooldown)
             {
@@ -50,7 +52,7 @@ namespace Index.Resources
 
             if (int.TryParse(buttonName, out int modID))
             {
-                ModHandler mod = Plugin.mods.FirstOrDefault(m => m.modID == modID);
+                ModHandler mod = Plugin.initMods.FirstOrDefault(m => m.modID == modID);
 
                 if (mod != null)
                 {

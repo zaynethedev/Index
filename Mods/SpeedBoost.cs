@@ -15,6 +15,11 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             speed = Plugin.config.Bind(
                 section: "Speed Boost",
                 key: "Speed Multiplier",
@@ -22,9 +27,10 @@ namespace Index.Mods
                 description: "Changes your speed. 1 = normal speed, 3 = very fast."
             );
         }
-        public override void OnFixedUpdate()
+
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             Player.Instance.jumpMultiplier = 1.1f * Mathf.Clamp(speed.Value, 1, 3);
             Player.Instance.maxJumpSpeed = 6.5f * Mathf.Clamp(speed.Value, 1, 3);
         }

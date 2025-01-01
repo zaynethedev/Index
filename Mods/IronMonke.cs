@@ -13,16 +13,13 @@ namespace Index.Mods
             base.Start();
             instance = this;
         }
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.5f && ControllerInputPoller.instance.rightControllerGripFloat >= 0.5f)
             {
-                Player.Instance.bodyCollider.attachedRigidbody.AddForce(10 * Player.Instance.rightControllerTransform.right, ForceMode.Acceleration);
-                Player.Instance.bodyCollider.attachedRigidbody.AddForce(10 * -Player.Instance.leftControllerTransform.right, ForceMode.Acceleration);
-                var gtins = GorillaTagger.Instance;
-                gtins.StartVibration(true, gtins.tapHapticStrength / 50f * gtins.bodyCollider.attachedRigidbody.velocity.magnitude, gtins.tapHapticDuration);
-                gtins.StartVibration(false, gtins.tapHapticStrength / 50f * gtins.bodyCollider.attachedRigidbody.velocity.magnitude, gtins.tapHapticDuration);
+                Player.Instance.bodyCollider.attachedRigidbody.AddForce(32 * Player.Instance.rightControllerTransform.right, ForceMode.Acceleration);
+                Player.Instance.bodyCollider.attachedRigidbody.AddForce(32 * -Player.Instance.leftControllerTransform.right, ForceMode.Acceleration);
             }
         }
 

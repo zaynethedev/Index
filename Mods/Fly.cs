@@ -15,6 +15,11 @@ namespace Index.Mods
         {
             base.Start();
             instance = this;
+        }
+
+        public override void SetConfig()
+        {
+            base.SetConfig();
             flySpeed = Plugin.config.Bind(
                 section: "Fly",
                 key: "Speed Multiplier",
@@ -22,9 +27,10 @@ namespace Index.Mods
                 description: "Changes your fly speed. 7.5f = slow, 22.5f = fast."
             );
         }
-        public override void OnFixedUpdate()
+
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerPrimaryButton || ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
                 var direction = Player.Instance.headCollider.transform.forward;
