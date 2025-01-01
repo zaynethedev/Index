@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using System.ComponentModel;
 
 namespace Index.Resources
 {
@@ -33,16 +34,16 @@ namespace Index.Resources
 
             touchTime = Time.time;
             GorillaTriggerColliderHandIndicator component = collider.GetComponent<GorillaTriggerColliderHandIndicator>();
-            ButtonActivation();
+            ButtonActivation(component);
             if (!(component == null))
             {
                 GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(67, component.isLeftHand, 0.05f);
-                GorillaTagger.Instance.StartVibration(component.isLeftHand, GorillaTagger.Instance.tapHapticStrength / 2f, GorillaTagger.Instance.tapHapticDuration);
             }
         }
 
-        public void ButtonActivation()
+        public void ButtonActivation(GorillaTriggerColliderHandIndicator hand)
         {
+            GorillaTagger.Instance.StartVibration(hand.isLeftHand, GorillaTagger.Instance.tapHapticStrength, GorillaTagger.Instance.tapHapticDuration);
             string buttonName = gameObject.name;
             if (isCooldown)
             {
@@ -51,7 +52,7 @@ namespace Index.Resources
 
             if (int.TryParse(buttonName, out int modID))
             {
-                ModHandler mod = Plugin.mods.FirstOrDefault(m => m.modID == modID);
+                ModHandler mod = Plugin.initMods.FirstOrDefault(m => m.modID == modID);
 
                 if (mod != null)
                 {
@@ -85,50 +86,6 @@ namespace Index.Resources
                             Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(true);
                             Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
                         }
-                        break;
-                    case "Settings":
-                        if (!Plugin.indexPanel.transform.Find("Mods/page2").gameObject.activeSelf)
-                        {
-                            Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
-                            Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
-                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(true);
-                        }
-                        break;
-                    case "NextMod":
-                        if (modIDSettings != 0)
-                        {
-                            modIDSettings++;
-                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
-                        }
-                        else
-                        {
-                            modIDSettings = 1;
-                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
-                        }
-                        break;
-                    case "PreviousMod":
-                        if (modIDSettings != 0)
-                        {
-                            modIDSettings--;
-                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
-                        }
-                        else
-                        {
-                            modIDSettings = Plugin.mods.Count;
-                            Plugin.indexPanel.transform.Find("SettingsPage/SelectedMod/SelectedModPanel/Text").GetComponent<TextMeshPro>().text = Plugin.mods[modIDSettings].modName;
-                        }
-                        break;
-                    case "NextConfig":
-                        // next config for the Plugin.mods[modIDSettings].modName, ofc check if such config exists (Plugin.config) is the configfile where everything is added
-                        break;
-                    case "PreviousConfig":
-                        // previous config for the Plugin.mods[modIDSettings].modName, ofc check if such config exists (Plugin.config) is the configfile where everything is added
-                        break;
-                    case "NextConfigOption":
-                        // next config option for the config (if its a boolean and the currently set option is false, set to true, if its a float, this is +)
-                        break;
-                    case "PreviousConfigOption":
-                        // previous config option for the config (if its a boolean and the currently set option is false, set to true, if its a float, this is +)
                         break;
                 }
             }

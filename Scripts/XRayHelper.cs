@@ -7,9 +7,22 @@ namespace Index.Scripts
 {
     public class XRayHelper : MonoBehaviourPunCallbacks
     {
+        public void Start()
+        {
+            foreach (VRRig rig in GorillaParent.instance.vrrigs)
+            {
+                if (!rig.isLocal)
+                {
+                    rig.skeleton.enabled = true;
+                    rig.skeleton.renderer.enabled = true;
+                    rig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
+                    rig.skeleton.renderer.material.color = rig.playerColor;
+                }
+            }
+        }
+
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
-            Debug.Log("DEBUG: Other Player Joined");
             try
             {
                 foreach (VRRig rig in GorillaParent.instance.vrrigs)
@@ -32,8 +45,6 @@ namespace Index.Scripts
         }
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            Debug.Log("DEBUG: Other Player Left");
-
             try
             {
                 foreach (VRRig rig in GorillaParent.instance.vrrigs)
@@ -50,5 +61,4 @@ namespace Index.Scripts
             base.OnPlayerLeftRoom(otherPlayer);
         }
     }
-
 }

@@ -18,9 +18,9 @@ namespace Index.Mods
                 helperObject.AddComponent<NoClipHelper>();
             }
         }
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerIndexFloat >= 0.5 || ControllerInputPoller.instance.rightControllerIndexFloat >= 0.5)
             {
                 MeshCollider[] array = NoClipHelper.Instance.FindAllObjectsOfType<MeshCollider>();
@@ -43,6 +43,7 @@ namespace Index.Mods
         }
         public override void OnModDisabled()
         {
+            Platforms.instance.OnModDisabled();
             base.OnModDisabled();
             MeshCollider[] array = NoClipHelper.Instance.FindAllObjectsOfType<MeshCollider>();
             foreach (MeshCollider meshCollider in array)
@@ -52,8 +53,8 @@ namespace Index.Mods
         }
         public override void OnModEnabled()
         {
-            base.OnModEnabled();
             Platforms.instance.OnModEnabled();
+            base.OnModEnabled();
         }
     }
 }

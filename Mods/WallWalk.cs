@@ -18,16 +18,10 @@ namespace Index.Mods
             instance = this;
             grav = Physics.gravity;
         }
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
-            HandleWallWalking(Player.Instance.wasLeftHandTouching, grav);
-            HandleWallWalking(Player.Instance.wasRightHandTouching, grav);
-        }
-
-        private void HandleWallWalking(bool isHandTouching, Vector3 grav)
-        {
-            if (isHandTouching)
+            base.OnUpdate();
+            if (Player.Instance.wasLeftHandTouching || Player.Instance.wasRightHandTouching)
             {
                 hit = GetLastHitInfo();
                 Physics.gravity = hit.normal * -grav.magnitude * 1.175f;

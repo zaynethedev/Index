@@ -13,9 +13,8 @@ namespace Index.Resources
         public bool enabled;
 
         public virtual void Start() { enabled = false; }
-        public virtual void OnFixedUpdate() { }
-        public virtual void SetConfig() { }
         public virtual void OnUpdate() { }
+        public virtual void SetConfig() { }
         public virtual void OnModEnabled()
         {
             enabled = true;

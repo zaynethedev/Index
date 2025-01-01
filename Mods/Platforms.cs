@@ -67,9 +67,9 @@ namespace Index.Mods
             );
         }
 
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
             if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.5)
             {

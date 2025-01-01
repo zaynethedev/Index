@@ -15,9 +15,9 @@ namespace Index.Mods
             base.Start();
             instance = this;
         }
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
 
         }
         public override void OnModDisabled()

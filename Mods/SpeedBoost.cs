@@ -28,9 +28,9 @@ namespace Index.Mods
             );
         }
 
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             Player.Instance.jumpMultiplier = 1.1f * Mathf.Clamp(speed.Value, 1, 3);
             Player.Instance.maxJumpSpeed = 6.5f * Mathf.Clamp(speed.Value, 1, 3);
         }

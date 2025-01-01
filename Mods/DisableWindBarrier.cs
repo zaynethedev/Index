@@ -1,6 +1,5 @@
 using Index.Resources;
 using System.Collections.Generic;
-using Index.Patches;
 using UnityEngine;
 
 namespace Index.Mods
@@ -17,32 +16,16 @@ namespace Index.Mods
             instance = this;
         }
 
-        public void SetForces(bool useForces)
-        {
-            Debug.Log($"SetForces ({useForces})");
-
-            if (!useForces)
-            {
-                List<ForceVolume> activeForces = new List<ForceVolume>(ForcePatch.ActiveForces);
-                foreach (ForceVolume force in activeForces)
-                {
-                    force.OnTriggerExit(GorillaTagger.Instance.headCollider);
-                }
-            }
-
-            UseForceMethods = useForces;
-        }
-
         public override void OnModDisabled()
         {
             base.OnModDisabled();
-            SetForces(true);
+            GameObject.Find("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(true);
         }
 
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            SetForces(false);
+            GameObject.Find("Environment Objects/LocalObjects_Prefab/Forest/Environment/Forest_ForceVolumes/").SetActive(false);
         }
     }
 }

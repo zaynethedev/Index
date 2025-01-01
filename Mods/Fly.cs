@@ -28,9 +28,9 @@ namespace Index.Mods
             );
         }
 
-        public override void OnFixedUpdate()
+        public override void OnUpdate()
         {
-            base.OnFixedUpdate();
+            base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerPrimaryButton || ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
                 var direction = Player.Instance.headCollider.transform.forward;
