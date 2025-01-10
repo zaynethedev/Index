@@ -27,6 +27,7 @@ namespace Index
 
         void Start()
         {
+            Debug.Log("Meow :3");
             harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "indexteam.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
