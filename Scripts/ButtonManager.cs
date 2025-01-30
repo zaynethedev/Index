@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
 using System.Collections;
-using TMPro;
-using System.ComponentModel;
 
 namespace Index.Resources
 {
@@ -11,7 +9,6 @@ namespace Index.Resources
         public static ButtonManager instance;
         public static bool isCooldown = false;
         public float cooldownTime = 0.1f;
-        public int modIDSettings = 0;
         public static Material unselectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_UnselectedButton").GetComponent<MeshRenderer>().materials[0]);
         public static Material selectedMaterial = new Material(Plugin.indexPanel.transform.Find("ShaderInit_SelectedButton").GetComponent<MeshRenderer>().materials[0]);
         public float debounceTime = 0.25f;
@@ -76,7 +73,6 @@ namespace Index.Resources
                         {
                             Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(true);
                             Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(false);
-                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
                         }
                         break;
                     case "Page2":
@@ -84,7 +80,6 @@ namespace Index.Resources
                         {
                             Plugin.indexPanel.transform.Find("Mods/page1").gameObject.SetActive(false);
                             Plugin.indexPanel.transform.Find("Mods/page2").gameObject.SetActive(true);
-                            Plugin.indexPanel.transform.Find("SettingsPage").gameObject.SetActive(false);
                         }
                         break;
                 }
