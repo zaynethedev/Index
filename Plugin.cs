@@ -14,7 +14,7 @@ using Index.Scripts;
 
 namespace Index
 {
-    [BepInPlugin("indexteam.Index", "Index", "1.0.1")]
+    [BepInPlugin("indexteam.Index", "Index", "1.0.2")]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -56,6 +56,8 @@ namespace Index
             indexPanel = Instantiate(indexPanel.transform.Find("Pivot").gameObject);
             indexPanel.AddComponent<HoldableEngine>();
             indexPanel.SetActive(false);
+            indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
+            indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
             var modsTransform = indexPanel.transform.Find("Mods");
             modsTransform.Find("page1").gameObject.SetActive(true);
             modsTransform.Find("page2").gameObject.SetActive(false);
@@ -102,7 +104,7 @@ namespace Index
                 }
             }
             initialized = true;
-            indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.1";
+            indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.2";
             indexPanel.transform.Find("IndexPanel/ModInfo").GetComponent<TextMeshPro>().text = "No mod selected\n\nNo mod selected";
         }
 
