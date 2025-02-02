@@ -7,7 +7,6 @@ namespace Index.Mods
     class XRay : ModHandler
     {
         public static XRay instance;
-        private GameObject xrayHelper;
 
         public override void Start()
         {
