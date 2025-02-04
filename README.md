@@ -24,7 +24,7 @@ Allows you to glide in the air with your controller buttons.
 
 ### Wall Walk
 
-Lets you stick onto the walls.
+Lets you smoothly walk onto walls.
 
 ### No-Slip
 
