@@ -6,5 +6,6 @@ namespace Index.Scripts
 {
     internal class IndexThemeLoader
     {
+
     }
 }
