@@ -54,9 +54,13 @@ namespace Index.Resources
                 if (mod != null)
                 {
                     if (mod.enabled)
+                    {
                         mod.OnModDisabled();
+                    }
                     else
+                    {
                         mod.OnModEnabled();
+                    }
                 }
             }
             else
