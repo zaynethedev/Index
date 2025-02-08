@@ -14,6 +14,21 @@ namespace Index.Mods
             instance = this;
         }
 
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+            foreach (VRRig rig in GorillaParent.instance.vrrigs)
+            {
+                if (!rig.isLocal && !rig.skeleton.enabled)
+                {
+                    rig.skeleton.enabled = true;
+                    rig.skeleton.renderer.enabled = true;
+                    rig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
+                    rig.skeleton.renderer.material.color = rig.playerColor;
+                }
+            }
+        }
+
         public override void OnModEnabled()
         {
             base.OnModEnabled();
