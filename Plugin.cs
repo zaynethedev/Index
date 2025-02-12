@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using UnityEngine;
 using Index.Resources;
 using System.Collections.Generic;
@@ -112,9 +112,7 @@ namespace Index
         {
             if (!initialized) return;
 
-            if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
-                if (!inRoom) inRoom = true;
 
                 if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
                 {
@@ -135,26 +133,7 @@ namespace Index
                     }
                 }
             }
-            else
-            {
-                if (inRoom)
-                {
-                    inRoom = false;
-                }
 
-                if (indexPanel.activeSelf)
-                {
-                    indexPanel.SetActive(false);
-                }
-
-                foreach (ModHandler mod in initMods)
-                {
-                    if (mod.enabled)
-                    {
-                        mod.OnModDisabled();
-                    }
-                }
-            }
         }
 
         public AssetBundle LoadAssetBundle(string path)
