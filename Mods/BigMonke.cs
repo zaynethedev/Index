@@ -31,7 +31,7 @@ namespace Index.Mods
         public override void OnUpdate()
         {
             base.OnUpdate();
-            GorillaLocomotion.Player.Instance.scale = Mathf.Clamp(size.Value, 1, 2);
+            GorillaLocomotion.Player.Instance.SetScaleMultiplier(Mathf.Clamp(size.Value, 1, 2));
         }
         public override void OnModDisabled()
         {

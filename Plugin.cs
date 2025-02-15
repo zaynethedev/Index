@@ -111,7 +111,6 @@ namespace Index
         void Update()
         {
             if (!initialized) return;
-
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
                 if (!inRoom) inRoom = true;
