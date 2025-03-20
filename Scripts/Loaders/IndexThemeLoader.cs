@@ -13,11 +13,11 @@ namespace Index.Scripts
     public class IndexThemeLoader : BaseUnityPlugin
     {
         private static GameObject indexPanel;
-        private static Transform indexPanelTransform;
-        private static List<GameObject> loadedThemeObjects = new List<GameObject>();
-        private static string tempThemeFolder = Path.Combine(Application.dataPath, "Index/ThemeTMP");
-        private static string tempZipFolder = Path.Combine(Application.dataPath, "Index/TempZips");
-        private static int currentThemeIndex = -1;
+        private static Transform iTransform;
+        private static List<GameObject> loadedObjects = new List<GameObject>();
+        private static string tempFolder = Path.Combine(Application.dataPath, "Index/Loaders/Themes/TMP");
+        private static string zipFolder = Path.Combine(Application.dataPath, "Index/Loaders/Themes/Zip");
+        private static int index = -1;
 
         void Awake() { StartCoroutine(Init()); }
         IEnumerator Init()
@@ -27,9 +27,9 @@ namespace Index.Scripts
                 yield return new WaitForSeconds(1f);
             }
             indexPanel = Plugin.indexPanel;
-            indexPanelTransform = indexPanel.transform.Find("IndexPanel");
-            if (!Directory.Exists(tempThemeFolder)) Directory.CreateDirectory(tempThemeFolder);
-            if (!Directory.Exists(tempZipFolder)) Directory.CreateDirectory(tempZipFolder);
+            iTransform = indexPanel.transform.Find("IndexPanel");
+            if (!Directory.Exists(tempFolder)) Directory.CreateDirectory(tempFolder);
+            if (!Directory.Exists(zipFolder)) Directory.CreateDirectory(zipFolder);
             LoadThemes();
         }
         void Update()
@@ -41,15 +41,15 @@ namespace Index.Scripts
 
         void RemoveThemes()
         {
-            var mr = indexPanelTransform.GetComponent<MeshRenderer>();
+            var mr = iTransform.GetComponent<MeshRenderer>();
             mr.enabled = true;
-            foreach (GameObject o in loadedThemeObjects)
+            foreach (GameObject o in loadedObjects)
                 o.SetActive(false);
         }
 
         void LoadThemes()
         {
-            string themesPath = Path.Combine(Paths.PluginPath, "Index/Themes");
+            string themesPath = Path.Combine(Paths.PluginPath, "Index/Loaders/Themes");
             if (!Directory.Exists(themesPath))
                 return;
             string[] files = Directory.GetFiles(themesPath, "*.indextheme");
@@ -58,39 +58,39 @@ namespace Index.Scripts
         }
         void LoadTheme(string file)
         {
-            if (indexPanel == null || indexPanelTransform == null)
+            if (indexPanel == null || iTransform == null)
                 return;
-            string themeZipPath = Path.Combine(tempZipFolder, Path.GetFileNameWithoutExtension(file) + ".zip");
+            string themeZipPath = Path.Combine(zipFolder, Path.GetFileNameWithoutExtension(file) + ".zip");
             try { File.Copy(file, themeZipPath, true); } catch (Exception e) { Debug.Log("File copy error: " + e.Message); return; }
             if (!File.Exists(themeZipPath))
                 return;
-            if (!Directory.Exists(tempThemeFolder)) Directory.CreateDirectory(tempThemeFolder);
-            try { ZipFile.ExtractToDirectory(themeZipPath, tempThemeFolder, true); }
+            if (!Directory.Exists(tempFolder)) Directory.CreateDirectory(tempFolder);
+            try { ZipFile.ExtractToDirectory(themeZipPath, tempFolder, true); }
             catch (Exception e) { Debug.Log("Extraction error: " + e.Message); return; }
-            string jsonPath = Path.Combine(tempThemeFolder, "info.json");
+            string jsonPath = Path.Combine(tempFolder, "info.json");
             if (File.Exists(jsonPath))
             {
                 string json = File.ReadAllText(jsonPath);
                 var info = JsonUtility.FromJson<ThemeInfo>(json);
             }
-            string bundlePath = Path.Combine(tempThemeFolder, "theme.bundle");
+            string bundlePath = Path.Combine(tempFolder, "theme.bundle");
             if (File.Exists(bundlePath))
             {
                 AssetBundle bundle = AssetBundle.LoadFromFile(bundlePath);
                 if (bundle != null)
-                    ApplyTheme(bundle);
+                    ApplyTheme(bundle, JsonUtility.FromJson<ThemeInfo>(File.ReadAllText(jsonPath)).Name);
             }
-            try { Directory.Delete(tempThemeFolder, true); }
+            try { Directory.Delete(tempFolder, true); }
             catch (Exception e) { Debug.Log("Deletion error: " + e.Message); }
         }
-        void ApplyTheme(AssetBundle bundle)
+        void ApplyTheme(AssetBundle bundle, string name)
         {
             GameObject[] prefabs = bundle.LoadAllAssets<GameObject>();
             if (prefabs.Length > 0)
             {
                 GameObject prefab = prefabs[0];
                 GameObject instance = Instantiate(prefab);
-                instance.transform.SetParent(indexPanelTransform, false);
+                instance.transform.SetParent(iTransform, false);
                 Material[] mats = bundle.LoadAllAssets<Material>();
                 Renderer[] rends = instance.GetComponentsInChildren<Renderer>();
                 if (mats.Length > 0)
@@ -99,7 +99,8 @@ namespace Index.Scripts
                         r.material = mats[0];
                 }
                 instance.SetActive(false);
-                loadedThemeObjects.Add(instance);
+                loadedObjects.Add(instance);
+                instance.name = name;
                 instance.transform.localPosition = Vector3.zero;
                 instance.transform.localRotation = Quaternion.Euler(90, 0, 0);
                 instance.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -108,31 +109,31 @@ namespace Index.Scripts
         }
         void SwitchTheme(int direction)
         {
-            if (loadedThemeObjects.Count == 0)
+            if (loadedObjects.Count == 0)
                 return;
-            int newIndex = (currentThemeIndex + direction) % loadedThemeObjects.Count;
+            int newIndex = (index + direction) % loadedObjects.Count;
             if (newIndex < 0)
-                newIndex = loadedThemeObjects.Count - 1;
-            currentThemeIndex = newIndex;
+                newIndex = loadedObjects.Count - 1;
+            index = newIndex;
             ActivateSelectedTheme();
         }
         void ActivateSelectedTheme()
         {
-            if (indexPanelTransform == null) return;
-            MeshRenderer mr = indexPanelTransform.GetComponent<MeshRenderer>();
+            if (iTransform == null) return;
+            MeshRenderer mr = iTransform.GetComponent<MeshRenderer>();
             if (mr != null)
                 mr.enabled = false;
-            foreach (var obj in loadedThemeObjects)
+            foreach (var obj in loadedObjects)
                 obj.SetActive(false);
-            loadedThemeObjects[currentThemeIndex].SetActive(true);
-            loadedThemeObjects[currentThemeIndex].transform.localPosition = Vector3.zero;
-            loadedThemeObjects[currentThemeIndex].transform.localRotation = Quaternion.Euler(90, 0, 0);
-            loadedThemeObjects[currentThemeIndex].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            loadedObjects[index].SetActive(true);
+            loadedObjects[index].transform.localPosition = Vector3.zero;
+            loadedObjects[index].transform.localRotation = Quaternion.Euler(90, 0, 0);
+            loadedObjects[index].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         }
         void OnDestroy()
         {
-            if (Directory.Exists(tempThemeFolder)) Directory.Delete(tempThemeFolder, true);
-            if (Directory.Exists(tempZipFolder)) Directory.Delete(tempZipFolder, true);
+            if (Directory.Exists(tempFolder)) Directory.Delete(tempFolder, true);
+            if (Directory.Exists(zipFolder)) Directory.Delete(zipFolder, true);
         }
     }
     [Serializable]

@@ -11,10 +11,11 @@ using HarmonyLib;
 using BepInEx.Configuration;
 using System.Linq;
 using Index.Scripts;
+using BepInEx.Logging;
 
 namespace Index
 {
-    [BepInPlugin("indexteam.Index", "Index", "1.0.2")]
+    [BepInPlugin("indexteam.Index", "Index", "1.0.3")]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -52,75 +53,76 @@ namespace Index
 
         void init()
         {
-            var allTypes = Assembly.GetExecutingAssembly().GetTypes();
-            indexPanel = Instantiate(indexPanel.transform.Find("Pivot").gameObject);
-            indexPanel.AddComponent<HoldableEngine>();
-            indexPanel.SetActive(false);
-            indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
-            indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
-            var modsTransform = indexPanel.transform.Find("Mods");
-            modsTransform.Find("page1").gameObject.SetActive(true);
-            modsTransform.Find("page2").gameObject.SetActive(false);
-            indexPanel.transform.Find("Page1").AddComponent<ButtonManager>();
-            indexPanel.transform.Find("Page2").AddComponent<ButtonManager>();
-            foreach (var modType in allTypes.Where(modType => typeof(ModHandler).IsAssignableFrom(modType) && !modType.IsAbstract))
+            try
             {
-                ModHandler modInstance = ModHandler.CreateInstance(modType);
-                if (modInstance != null)
+                var allTypes = Assembly.GetExecutingAssembly().GetTypes();
+                indexPanel = Instantiate(indexPanel.transform.Find("Pivot").gameObject);
+                indexPanel.AddComponent<HoldableEngine>();
+                indexPanel.SetActive(false);
+                indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
+                indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
+                var modsTransform = indexPanel.transform.Find("Mods");
+                modsTransform.Find("page1").gameObject.SetActive(true);
+                modsTransform.Find("page2").gameObject.SetActive(false);
+                indexPanel.transform.Find("Page1").AddComponent<ButtonManager>();
+                indexPanel.transform.Find("Page2").AddComponent<ButtonManager>();
+                foreach (var modType in allTypes.Where(modType => typeof(ModHandler).IsAssignableFrom(modType) && !modType.IsAbstract))
                 {
-                    initMods.Add(modInstance);
-                    modInstance.SetConfig();
-                    modInstance.Start();
-                    var modAttrib = (IndexMod)Attribute.GetCustomAttribute(modType, typeof(IndexMod));
-                    if (modAttrib != null)
+                    ModHandler modInstance = ModHandler.CreateInstance(modType);
+                    if (modInstance != null)
                     {
-                        var modPanel = indexPanel.transform.Find($"Mods/{modAttrib.ModID}");
-                        if (modPanel != null)
+                        initMods.Add(modInstance);
+                        modInstance.SetConfig();
+                        modInstance.Start();
+                        var modAttrib = (IndexMod)Attribute.GetCustomAttribute(modType, typeof(IndexMod));
+                        if (modAttrib != null)
                         {
-                            modPanel.AddComponent<ButtonManager>();
-                            modPanel.Find("Text").GetComponent<TextMeshPro>().text = modAttrib.ModName;
+                            var modPanel = indexPanel.transform.Find($"Mods/{modAttrib.ModID}");
+                            if (modPanel != null)
+                            {
+                                modPanel.AddComponent<ButtonManager>();
+                                modPanel.Find("Text").GetComponent<TextMeshPro>().text = modAttrib.ModName;
+                            }
                         }
                     }
                 }
-            }
-            foreach (ModHandler mod in initMods)
-            {
-                var attrib = (IndexMod)Attribute.GetCustomAttribute(mod.GetType(), typeof(IndexMod));
-                if (attrib != null)
+                foreach (ModHandler mod in initMods)
                 {
-                    var page1HashSet = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" };
-                    var page2HashSet = new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" };
-                    if (page1HashSet.Contains(attrib.ModID.ToString()))
-                        indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page1"), false);
-                    else if (page2HashSet.Contains(attrib.ModID.ToString()))
-                        indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page2"), false);
+                    var attrib = (IndexMod)Attribute.GetCustomAttribute(mod.GetType(), typeof(IndexMod));
+                    if (attrib != null)
+                    {
+                        var page1HashSet = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" };
+                        var page2HashSet = new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" };
+                        if (page1HashSet.Contains(attrib.ModID.ToString()))
+                            indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page1"), false);
+                        else if (page2HashSet.Contains(attrib.ModID.ToString()))
+                            indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page2"), false);
+                    }
                 }
-            }
-            foreach (Transform child in indexPanel.transform.Find("Mods"))
-            {
-                if (!new HashSet<string> { "page1", "page2" }.Contains(child.name))
+                foreach (Transform child in indexPanel.transform.Find("Mods"))
                 {
-                    child.gameObject.SetActive(false);
+                    if (!new HashSet<string> { "page1", "page2" }.Contains(child.name))
+                    {
+                        child.gameObject.SetActive(false);
+                    }
                 }
+                initialized = true;
+                NetworkSystem.Instance.OnJoinedRoomEvent += LоbbyChеck;
+                NetworkSystem.Instance.OnReturnedToSinglePlayer += LоbbyChеck;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.23 DEV";
+                indexPanel.transform.Find("IndexPanel/ModInfo").GetComponent<TextMeshPro>().text = "No mod selected\n\nNo mod selected";
             }
-            initialized = true;
-            indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.23 DEV";
-            indexPanel.transform.Find("IndexPanel/ModInfo").GetComponent<TextMeshPro>().text = "No mod selected\n\nNo mod selected";
+            catch (Exception e)
+            {
+                Logger.LogError(e);
+            }
         }
 
-        void Update()
+        private void LоbbyChеck()
         {
-            if (!initialized) return;
             if (NetworkSystem.Instance.InRoom && NetworkSystem.Instance.GameModeString.Contains("MODDED"))
             {
-                if (!inRoom) inRoom = true;
-
-                if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
-                {
-                    indexPanel.transform.rotation = GorillaTagger.Instance.mainCamera.transform.rotation;
-                    indexPanel.transform.position = Player.Instance.headCollider.transform.position + Player.Instance.headCollider.transform.forward;
-                }
-
+                inRoom = true;
                 if (!indexPanel.activeSelf)
                 {
                     indexPanel.SetActive(true);
@@ -136,11 +138,7 @@ namespace Index
             }
             else
             {
-                if (inRoom)
-                {
-                    inRoom = false;
-                }
-
+                inRoom = false;
                 if (indexPanel.activeSelf)
                 {
                     indexPanel.SetActive(false);
@@ -153,6 +151,17 @@ namespace Index
                         mod.OnModDisabled();
                     }
                 }
+            }
+        }
+
+        void Update()
+        {
+            if (!initialized || !inRoom) return;
+
+            if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
+            {
+                indexPanel.transform.rotation = GorillaTagger.Instance.mainCamera.transform.rotation;
+                indexPanel.transform.position = Player.Instance.headCollider.transform.position + Player.Instance.headCollider.transform.forward;
             }
         }
 

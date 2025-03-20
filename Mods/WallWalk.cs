@@ -28,7 +28,7 @@ namespace Index.Mods
         {
             base.OnUpdate();
 
-            if (Player.Instance.wasLeftHandTouching || Player.Instance.wasRightHandTouching)
+            if (Player.Instance.wasLeftHandColliding || Player.Instance.wasRightHandColliding)
             {
                 hit = GetLastHitInfo();
                 Vector3 wallNormal = hit.normal;
