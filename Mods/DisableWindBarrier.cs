@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    [IndexMod("Disable Wind Barrier", "Disables all wind barriers. Credits to defaultuser0 for the help.", "DisableWindBarrier", 14)]
+    [IndexMod("Disable Wind Barrier", "Disables all wind barriers in forest. Credits to defaultuser0 for helping make this mod.", "DisableWindBarrier", 14)]
     class DisableWindBarrier : ModHandler
     {
         public static DisableWindBarrier instance;

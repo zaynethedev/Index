@@ -7,12 +7,26 @@ namespace Index.Mods
     class XRay : ModHandler
     {
         public static XRay instance;
-        private GameObject xrayHelper;
 
         public override void Start()
         {
             base.Start();
             instance = this;
+        }
+
+        public override void OnUpdate()
+        {
+            base.OnUpdate();
+            foreach (VRRig rig in GorillaParent.instance.vrrigs)
+            {
+                if (!rig.isLocal && !rig.skeleton.enabled)
+                {
+                    rig.skeleton.enabled = true;
+                    rig.skeleton.renderer.enabled = true;
+                    rig.skeleton.renderer.material.shader = Shader.Find("GUI/Text Shader");
+                    rig.skeleton.renderer.material.color = rig.playerColor;
+                }
+            }
         }
 
         public override void OnModEnabled()

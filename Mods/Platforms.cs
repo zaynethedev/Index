@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Index.Mods
 {
-    [IndexMod("Platforms", "Spawns collidable objects under your hand every time you press grip.", "Platforms", 1)]
+    [IndexMod("Platforms", "Spawns collidable objects under your hand every time you press a selected input. [Default Input: GRIP]", "Platforms", 1)]
     class Platforms : ModHandler
     {
         public static Platforms instance;
@@ -15,6 +15,7 @@ namespace Index.Mods
         public Vector3 platSize = new Vector3(0.3f, 0.06f, 0.3f);
         public Color platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
         public ConfigEntry<bool> isPlatformsSticky;
+        public ConfigEntry<string> platformActivation;
 
         public override void Start()
         {
@@ -27,7 +28,6 @@ namespace Index.Mods
             platformL.name = "GorillaLeftPlatform";
             platformL.transform.position = Vector3.zero;
             platformL.transform.localScale = new Vector3(0.3f, 0.06f, 0.3f);
-
             platformR = GameObject.CreatePrimitive(PrimitiveType.Cube);
             platformR.AddComponent<GorillaSurfaceOverride>();
             platformR.GetComponent<MeshRenderer>().material = new Material(Plugin.indexPanel.transform.Find("ShaderInit_Platforms").GetComponent<MeshRenderer>().materials[0]);
@@ -65,13 +65,42 @@ namespace Index.Mods
                 defaultValue: false,
                 description: "TRUE: Makes your hands stick to the platforms, as if they were glue.\n FALSE: Makes the platforms loose, and your hands will not stick to them."
             );
+            platformActivation = Plugin.config.Bind(
+                section: "Platforms",
+                key: "Platform Activation Type",
+                defaultValue: "grip",
+                description: "Controls what buttons trigger the platforms.\nAcceptable Inputs:\n grip\ntrigger\na/x\n b/y"
+            );
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
             platColor = GorillaTagger.Instance.offlineVRRig.playerColor;
-            if (ControllerInputPoller.instance.rightControllerGripFloat >= 0.5)
+
+            bool activateL = false, activateR = false;
+
+            switch (platformActivation.Value.ToLower())
+            {
+                case "grip":
+                    activateR = ControllerInputPoller.instance.rightControllerGripFloat >= 0.5;
+                    activateL = ControllerInputPoller.instance.leftControllerGripFloat >= 0.5;
+                    break;
+                case "trigger":
+                    activateR = ControllerInputPoller.instance.rightControllerIndexFloat >= 0.5;
+                    activateL = ControllerInputPoller.instance.leftControllerIndexFloat >= 0.5;
+                    break;
+                case "a/x":
+                    activateR = ControllerInputPoller.instance.rightControllerPrimaryButton;
+                    activateL = ControllerInputPoller.instance.leftControllerPrimaryButton;
+                    break;
+                case "b/y":
+                    activateR = ControllerInputPoller.instance.rightControllerSecondaryButton;
+                    activateL = ControllerInputPoller.instance.leftControllerSecondaryButton;
+                    break;
+            }
+
+            if (activateR)
             {
                 if (!platSetR)
                 {
@@ -87,7 +116,8 @@ namespace Index.Mods
                 platformTransformR.position = Vector3.zero;
                 platformTransformR.rotation = Quaternion.identity;
             }
-            if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.5)
+
+            if (activateL)
             {
                 if (!platSetL)
                 {

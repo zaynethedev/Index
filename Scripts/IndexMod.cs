@@ -1,6 +1,4 @@
 ﻿using System;
-using UnityEngine;
-
 namespace Index.Resources
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
