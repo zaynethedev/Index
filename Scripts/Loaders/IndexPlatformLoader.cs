@@ -103,6 +103,7 @@ namespace Index.Scripts
                 leftPlat.name = $"left{name}"; rightPlat.name = $"right{name}";
                 leftPlat.transform.localPosition = Vector3.zero;
                 rightPlat.transform.localPosition = Vector3.zero;
+                Destroy(instance);
             }
             bundle.Unload(false);
         }
