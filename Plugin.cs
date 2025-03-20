@@ -12,10 +12,14 @@ using BepInEx.Configuration;
 using System.Linq;
 using Index.Scripts;
 using BepInEx.Logging;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Index.BepInfo;
+using BoingKit;
 
 namespace Index
 {
-    [BepInPlugin("indexteam.Index", "Index", "1.0.3")]
+    [BepInPlugin(Info_Plugin.guid, Info_Plugin.name, Info_Plugin.version)]
     public class Plugin : BaseUnityPlugin
     {
         public static bool inRoom, initialized;
@@ -31,6 +35,38 @@ namespace Index
             harmony = Harmony.CreateAndPatchAll(GetType().Assembly, "indexteam.Index");
             preInit();
             GorillaTagger.OnPlayerSpawned(init);
+        }
+
+        private async void version()
+        {
+            string onlineVersion = await fetch();
+            if (!string.IsNullOrEmpty(onlineVersion) && onlineVersion == Info_Plugin.version)
+            {
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.3";
+            }
+            else
+            {
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSize -= 3;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.red;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"NEW VERSION AVAILABLE: v{onlineVersion}";
+            }
+        }
+
+        private async Task<string> fetch()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string content = await client.GetStringAsync("https://raw.githubusercontent.com/zaynethedev/Index/main/ver.txt");
+                    return content.Trim().Replace('_', '.');
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                return null;
+            }
         }
 
         void preInit()
@@ -109,7 +145,7 @@ namespace Index
                 initialized = true;
                 NetworkSystem.Instance.OnJoinedRoomEvent += LоbbyChеck;
                 NetworkSystem.Instance.OnReturnedToSinglePlayer += LоbbyChеck;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.23 DEV";
+                version();
                 indexPanel.transform.Find("IndexPanel/ModInfo").GetComponent<TextMeshPro>().text = "No mod selected\n\nNo mod selected";
             }
             catch (Exception e)

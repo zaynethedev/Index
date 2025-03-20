@@ -6,10 +6,11 @@ using System.IO.Compression;
 using UnityEngine;
 using BepInEx;
 using UnityEngine.InputSystem;
+using Index.BepInfo;
 
 namespace Index.Scripts
 {
-    [BepInPlugin("indexteam.indexthemeLoader", "Index Theme Loader", "1.0.7")]
+    [BepInPlugin(Info_ThemeLoader.guid, Info_ThemeLoader.name, Info_ThemeLoader.version)]
     public class IndexThemeLoader : BaseUnityPlugin
     {
         private static GameObject indexPanel;

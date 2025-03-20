@@ -7,10 +7,11 @@ using UnityEngine;
 using BepInEx;
 using UnityEngine.InputSystem;
 using Index.Mods;
+using Index.BepInfo;
 
 namespace Index.Scripts
 {
-    [BepInPlugin("indexteam.indexplatformLoader", "Index Platform Loader", "1.0.7")]
+    [BepInPlugin(Info_PlatLoader.guid, Info_PlatLoader.name, Info_PlatLoader.version)]
     public class IndexPlatformLoader : BaseUnityPlugin
     {
         private static GameObject indexPanel;
