@@ -46,7 +46,7 @@ namespace Index
             }
             else
             {
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSize -= 3;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSize -= 4;
                 indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.red;
                 indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"NEW VERSION AVAILABLE: v{onlineVersion}";
             }
