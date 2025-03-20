@@ -42,7 +42,7 @@ namespace Index
             string onlineVersion = await fetch();
             if (!string.IsNullOrEmpty(onlineVersion) && onlineVersion == Info_Plugin.version)
             {
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = "INDEX v1.0.3";
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"INDEX v{Info_Plugin.version}";
             }
             else
             {
