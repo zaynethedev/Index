@@ -103,6 +103,8 @@ namespace Index.Scripts
                 leftPlat.name = $"left{name}"; rightPlat.name = $"right{name}";
                 leftPlat.transform.localPosition = Vector3.zero;
                 rightPlat.transform.localPosition = Vector3.zero;
+                leftPlat.transform.localScale = new Vector3(leftPlat.transform.localScale.x / 0.3f, leftPlat.transform.localScale.y / 0.06f, leftPlat.transform.localScale.z / 0.3f);
+                rightPlat.transform.localScale = new Vector3(rightPlat.transform.localScale.x / 0.3f, rightPlat.transform.localScale.y / 0.06f, rightPlat.transform.localScale.z / 0.3f);
                 Destroy(instance);
             }
             bundle.Unload(false);
