@@ -28,11 +28,11 @@ namespace Index.Mods
         {
             base.OnUpdate();
 
-            if (Player.Instance.wasLeftHandColliding || Player.Instance.wasRightHandColliding)
+            if (GTPlayer.Instance.wasLeftHandColliding || GTPlayer.Instance.wasRightHandColliding)
             {
                 hit = GetLastHitInfo();
                 Vector3 wallNormal = hit.normal;
-                Vector3 playerUp = Player.Instance.bodyCollider.transform.up;
+                Vector3 playerUp = GTPlayer.Instance.bodyCollider.transform.up;
                 targetGravity = Vector3.Lerp(playerUp * -originalGravity.magnitude, wallNormal * -originalGravity.magnitude, 0.8f);
             }
             else
@@ -45,8 +45,8 @@ namespace Index.Mods
 
         private RaycastHit GetLastHitInfo()
         {
-            FieldInfo fieldInfo = typeof(Player).GetField("lastHitInfoHand", BindingFlags.NonPublic | BindingFlags.Instance);
-            return (RaycastHit)fieldInfo.GetValue(Player.Instance);
+            FieldInfo fieldInfo = typeof(GTPlayer).GetField("lastHitInfoHand", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (RaycastHit)fieldInfo.GetValue(GTPlayer.Instance);
         }
 
         public override void OnModDisabled()

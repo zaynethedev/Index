@@ -105,7 +105,7 @@ namespace Index.Mods
                 if (!platSetR)
                 {
                     platSetR = true;
-                    platformTransformR.position = GorillaLocomotion.Player.Instance.rightControllerTransform.position + new Vector3(0, -0.1f, 0);
+                    platformTransformR.position = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformR.rotation = Quaternion.Euler(0, -90, 0);
                     platformR.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
                 }
@@ -122,7 +122,7 @@ namespace Index.Mods
                 if (!platSetL)
                 {
                     platSetL = true;
-                    platformTransformL.position = GorillaLocomotion.Player.Instance.leftControllerTransform.position + new Vector3(0, -0.1f, 0);
+                    platformTransformL.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position + new Vector3(0, -0.1f, 0);
                     platformTransformL.rotation = Quaternion.Euler(0, -90, 0);
                     platformL.GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", platColor);
                 }

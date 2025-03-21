@@ -31,14 +31,14 @@ namespace Index.Mods
         public override void OnUpdate()
         {
             base.OnUpdate();
-            Player.Instance.jumpMultiplier = 1.1f * Mathf.Clamp(speed.Value, 1, 3);
-            Player.Instance.maxJumpSpeed = 6.5f * Mathf.Clamp(speed.Value, 1, 3);
+            GTPlayer.Instance.jumpMultiplier = 1.1f * Mathf.Clamp(speed.Value, 1, 3);
+            GTPlayer.Instance.maxJumpSpeed = 6.5f * Mathf.Clamp(speed.Value, 1, 3);
         }
         public override void OnModDisabled()
         {
             base.OnModDisabled();
-            Player.Instance.jumpMultiplier = 1.1f;
-            Player.Instance.maxJumpSpeed = 6.5f;
+            GTPlayer.Instance.jumpMultiplier = 1.1f;
+            GTPlayer.Instance.maxJumpSpeed = 6.5f;
         }
     }
 }

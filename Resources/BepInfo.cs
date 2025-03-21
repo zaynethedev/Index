@@ -4,7 +4,7 @@
     {
         public const string guid = "indexteam.Index";
         public const string name = "Index";
-        public const string version = "1.0.3";
+        public const string version = "1.0.4";
     }
 
     internal class Info_ThemeLoader

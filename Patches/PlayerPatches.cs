@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Index.Patches
 {
-    [HarmonyPatch(typeof(Player), "GetSlidePercentage")]
+    [HarmonyPatch(typeof(GTPlayer), "GetSlidePercentage")]
     class SlipPatch
     {
         static void Postfix(ref float __result)

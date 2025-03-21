@@ -19,22 +19,22 @@ namespace Index.Scripts
 
         public void Update()
         {
-            if (!InHand && input.leftControllerGripFloat >= 0.5f && Vector3.Distance(Player.Instance.leftControllerTransform.position, transform.position) < GrabRadius)
+            if (!InHand && input.leftControllerGripFloat >= 0.5f && Vector3.Distance(GTPlayer.Instance.leftControllerTransform.position, transform.position) < GrabRadius)
             {
                 InHand = true;
                 InLeftHand = true;
-                transform.SetParent(Player.Instance.leftControllerTransform);
+                transform.SetParent(GTPlayer.Instance.leftControllerTransform);
             }
             else if (InHand && InLeftHand && input.leftControllerGripFloat <= 0.5f)
             {
                 InHand = false;
                 transform.SetParent(null);
             }
-            if (!InHand && input.rightControllerGripFloat >= 0.5f && Vector3.Distance(Player.Instance.rightControllerTransform.position, transform.position) < GrabRadius)
+            if (!InHand && input.rightControllerGripFloat >= 0.5f && Vector3.Distance(GTPlayer.Instance.rightControllerTransform.position, transform.position) < GrabRadius)
             {
                 InHand = true;
                 InLeftHand = false;
-                transform.SetParent(Player.Instance.rightControllerTransform);
+                transform.SetParent(GTPlayer.Instance.rightControllerTransform);
             }
             else if (InHand && !InLeftHand && input.rightControllerGripFloat <= 0.5f)
             {

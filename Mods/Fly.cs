@@ -33,8 +33,8 @@ namespace Index.Mods
             base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerPrimaryButton || ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
-                var direction = Player.Instance.headCollider.transform.forward;
-                var rigidbody = Player.Instance.bodyCollider.attachedRigidbody;
+                var direction = GTPlayer.Instance.headCollider.transform.forward;
+                var rigidbody = GTPlayer.Instance.bodyCollider.attachedRigidbody;
                 Vector3 velocity = direction * Mathf.Clamp(flySpeed.Value, 7.5f, 22.5f);
                 rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, velocity, 0.25f);
             }

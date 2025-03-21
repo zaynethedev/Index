@@ -19,8 +19,8 @@ namespace Index.Mods
             base.OnUpdate();
             if (ControllerInputPoller.instance.leftControllerGripFloat >= 0.5f && ControllerInputPoller.instance.rightControllerGripFloat >= 0.5f)
             {
-                Player.Instance.bodyCollider.attachedRigidbody.AddForce(32 * Player.Instance.rightControllerTransform.right, ForceMode.Acceleration);
-                Player.Instance.bodyCollider.attachedRigidbody.AddForce(32 * -Player.Instance.leftControllerTransform.right, ForceMode.Acceleration);
+                GTPlayer.Instance.bodyCollider.attachedRigidbody.AddForce(32 * GTPlayer.Instance.rightControllerTransform.right, ForceMode.Acceleration);
+                GTPlayer.Instance.bodyCollider.attachedRigidbody.AddForce(32 * -GTPlayer.Instance.leftControllerTransform.right, ForceMode.Acceleration);
             }
         }
 

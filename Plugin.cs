@@ -11,11 +11,9 @@ using HarmonyLib;
 using BepInEx.Configuration;
 using System.Linq;
 using Index.Scripts;
-using BepInEx.Logging;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Index.BepInfo;
-using BoingKit;
 
 namespace Index
 {
@@ -39,26 +37,37 @@ namespace Index
 
         private async void version()
         {
-            string onlineVersion = await fetch();
-            if (!string.IsNullOrEmpty(onlineVersion) && onlineVersion == Info_Plugin.version)
+            string warn = await fetch("https://raw.githubusercontent.com/zaynethedev/Index/main/warn.txt");
+            if (warn != "none")
             {
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"INDEX v{Info_Plugin.version}";
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().enableAutoSizing = true;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMin = 4;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMax = 12;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.yellow;
+                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = warn.ToUpper();
             }
             else
             {
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSize -= 4;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.red;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"NEW VERSION AVAILABLE: v{onlineVersion}";
+                string onlineVersion = await fetch("https://raw.githubusercontent.com/zaynethedev/Index/main/ver.txt");
+                if (!string.IsNullOrEmpty(onlineVersion) && onlineVersion == Info_Plugin.version)
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"INDEX v{Info_Plugin.version}";
+                else
+                {
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().enableAutoSizing = true;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMin = 4;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMax = 12;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = $"NEW VERSION AVAILABLE: v{onlineVersion}";
+                }
             }
         }
 
-        private async Task<string> fetch()
+        private async Task<string> fetch(string url)
         {
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    string content = await client.GetStringAsync("https://raw.githubusercontent.com/zaynethedev/Index/main/ver.txt");
+                    string content = await client.GetStringAsync(url);
                     return content.Trim().Replace('_', '.');
                 }
             }
@@ -197,7 +206,7 @@ namespace Index
             if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
                 indexPanel.transform.rotation = GorillaTagger.Instance.mainCamera.transform.rotation;
-                indexPanel.transform.position = Player.Instance.headCollider.transform.position + Player.Instance.headCollider.transform.forward;
+                indexPanel.transform.position = GTPlayer.Instance.headCollider.transform.position + GTPlayer.Instance.headCollider.transform.forward;
             }
         }
 

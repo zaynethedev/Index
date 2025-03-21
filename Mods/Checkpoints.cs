@@ -29,7 +29,7 @@ namespace Index.Mods
             {
                 if (!isPressingDown)
                 {
-                    var checkpointPos = Player.Instance.LastLeftHandPosition;
+                    var checkpointPos = GTPlayer.Instance.LastLeftHandPosition;
                     point = CreateCheckpoint();
                     point.transform.position = checkpointPos;
                 }
@@ -74,7 +74,7 @@ namespace Index.Mods
         {
             GorillaTagger.Instance.rigidbody.maxLinearVelocity = 0;
             foreach (MeshCollider Coliders in MeshColliders) { Coliders.enabled = false; }
-            Player.Instance.headCollider.transform.position = checkpointPos;
+            GTPlayer.Instance.headCollider.transform.position = checkpointPos;
             await Task.Delay(5);
             foreach (MeshCollider Coliders in MeshColliders) { Coliders.enabled = true; }
             GorillaTagger.Instance.rigidbody.maxLinearVelocity = 10000000000000000;

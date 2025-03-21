@@ -17,13 +17,13 @@ namespace Index.Mods
         public override void OnModDisabled()
         {
             base.OnModDisabled();
-            Player.Instance.bodyCollider.material.bounciness = 0f;
+            GTPlayer.Instance.bodyCollider.material.bounciness = 0f;
         }
 
         public override void OnModEnabled()
         {
             base.OnModEnabled();
-            Player.Instance.bodyCollider.material.bounciness = 1f;
+            GTPlayer.Instance.bodyCollider.material.bounciness = 1f;
         }
     }
 }
