@@ -9,68 +9,69 @@
 	<a href="https://discord.gg/v9yKVNgwds"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
 </p>
 
-## Mod List
+## Mod List [Currently 15 mods]
+
 ### Platforms
 
-Spawns collidable objects under your hand everytime you press grip.
+# Spawns collidable objects under your hand everytime you press grip.
   
 ### Speed Boost
 
-Increases your speed.
+# Increases your speed.
 
 ### Fly
 
-Allows you to glide in the air with your controller buttons.
+# Allows you to glide in the air with your controller buttons.
 
 ### Wall Walk
 
-Lets you smoothly walk onto walls.
+# Lets you smoothly walk onto walls.
 
 ### No-Slip
 
-Disables slipping mechanics.
+# Disables slipping mechanics.
 
 ### Slippery Monke
 
-Makes everything slippery.
+# Makes everything slippery.
 
 ### Low-Gravity
 
-Lets you float in the air.
+# Lets you float in the air.
 
 ### Iron Monke
 
-Pushes you in the direction you want to go. (Using your hands)
+# Pushes you in the direction you want to go. (Using your hands)
 
 ### No-Clip
 
-Makes you non-collidable.
+# Makes you non-collidable.
 
 ### Bounce Monke
 
-Makes you bouncy.
+# Makes you bouncy.
 
 ### Big Monke
 
-Makes you big.
+# Makes you big.
 
 ### Small Monke
 
-Makes you small.
+# Makes you small.
 
 ### Checkpoints
 
-Lets you create a checkpoint and teleport to it.
+# Lets you create a checkpoint and teleport to it.
 
 ### Disable Wind Barrier
 
-Disables all wind barriers. Credits to defaultuser0 for the help.
+# Disables all wind barriers. Credits to defaultuser0 for the help.
 
 ### XRay
 
-A mod that allows you to see other players through walls.
+# A mod that allows you to see other players through walls.
 
-## There are a total of 15 mods on this mod panel.
+# 
 
-## Disclaimer
-This product is not affiliated with Another Axiom Inc. or its videogames Gorilla Tag and Orion Drift and is not endorsed or otherwise sponsored by Another Axiom. Portions of the materials contained herein are property of Another Axiom. ©2021 Another Axiom Inc.
+> [!NOTE]
+> *This product is not affiliated with Another Axiom Inc. or its videogames Gorilla Tag and Orion Drift and is not endorsed or otherwise sponsored by Another Axiom. Portions of the materials contained herein are property of Another Axiom. ©2021 Another Axiom Inc.*
