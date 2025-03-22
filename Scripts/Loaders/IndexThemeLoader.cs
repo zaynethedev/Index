@@ -105,6 +105,13 @@ namespace Index.Scripts
                 instance.transform.localPosition = Vector3.zero;
                 instance.transform.localRotation = Quaternion.Euler(90, 0, 0);
                 instance.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                if (instance.transform.childCount != 0)
+                {
+                    foreach (Transform c in instance.transform)
+                    {
+                        c.localPosition = Vector3.zero;
+                    }
+                }
             }
             bundle.Unload(false);
         }

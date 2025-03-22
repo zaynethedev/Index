@@ -38,13 +38,24 @@ namespace Index
         private async void version()
         {
             string warn = await fetch("https://raw.githubusercontent.com/zaynethedev/Index/main/warn.txt");
-            if (warn != "none")
+            if (!warn.Contains("none"))
             {
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().enableAutoSizing = true;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMin = 4;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMax = 12;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.yellow;
-                indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = warn.ToUpper();
+                if (!warn.Contains("version=none"))
+                {
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().enableAutoSizing = true;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMin = 4;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMax = 12;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.yellow;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = warn.ToUpper();
+                }
+                else
+                {
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().enableAutoSizing = true;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMin = 4;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().fontSizeMax = 12;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().color = Color.yellow;
+                    indexPanel.transform.Find("IndexPanel/IndexInfo").GetComponent<TextMeshPro>().text = warn.ToUpper();
+                }
             }
             else
             {

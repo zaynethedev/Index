@@ -4,14 +4,14 @@
     {
         public const string guid = "indexteam.Index";
         public const string name = "Index";
-        public const string version = "1.0.5";
+        public const string version = "1.0.6";
     }
 
     internal class Info_ThemeLoader
     {
         public const string guid = "indexteam.indexthemeLoader";
         public const string name = "Index Theme Loader";
-        public const string version = "1.0.0";
+        public const string version = "1.0.1";
     }
 
     internal class Info_PlatLoader

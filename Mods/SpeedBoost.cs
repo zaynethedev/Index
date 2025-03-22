@@ -9,7 +9,6 @@ namespace Index.Mods
     class SpeedBoost : ModHandler
     {
         public static SpeedBoost instance;
-        public ConfigEntry<float> speed;
 
         public override void Start()
         {
@@ -17,23 +16,13 @@ namespace Index.Mods
             instance = this;
         }
 
-        public override void SetConfig()
-        {
-            base.SetConfig();
-            speed = Plugin.config.Bind(
-                section: "Speed Boost",
-                key: "Speed Multiplier",
-                defaultValue: 1.25f,
-                description: "Changes your speed. 1 = normal speed, 3 = very fast."
-            );
-        }
-
         public override void OnUpdate()
         {
             base.OnUpdate();
-            GTPlayer.Instance.jumpMultiplier = 1.1f * Mathf.Clamp(speed.Value, 1, 3);
-            GTPlayer.Instance.maxJumpSpeed = 6.5f * Mathf.Clamp(speed.Value, 1, 3);
+            GTPlayer.Instance.jumpMultiplier = 1.3f * 1.5f;
+            GTPlayer.Instance.maxJumpSpeed = 8.5f * 1.5f;
         }
+
         public override void OnModDisabled()
         {
             base.OnModDisabled();
