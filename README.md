@@ -9,67 +9,103 @@
 	<a href="https://discord.gg/v9yKVNgwds"><img src="https://img.shields.io/badge/discord-11%20online-blueviolet?style=for-the-badge"></a>
 </p>
 
-## Mod List [Currently 15 mods]
+</br>
 
+<h1 align="center"> Mod List [Currently 15 mods] </h1>
+
+<div align="center">
+	
 ### Platforms
 
-> Spawns collidable objects under your hand everytime you press grip.
-  
+Spawns collidable objects under your hand everytime you press grip.
+
+</br>
+
 ### Speed Boost
 
-> Increases your speed.
+Increases your speed.
+
+</br>
 
 ### Fly
 
-> Allows you to glide in the air with your controller buttons.
+Allows you to glide in the air with your controller buttons.
+
+</br>
 
 ### Wall Walk
 
-> Lets you smoothly walk onto walls.
+Lets you smoothly walk onto walls.
+
+</br>
 
 ### No-Slip
 
-> Disables slipping mechanics.
+Disables slipping mechanics.
+
+</br>
 
 ### Slippery Monke
 
-> Makes everything slippery.
+Makes everything slippery.
+
+</br>
 
 ### Low-Gravity
 
-> Lets you float in the air.
+Lets you float in the air.
+
+</br>
 
 ### Iron Monke
 
-> Pushes you in the direction you want to go. (Using your hands)
+Pushes you in the direction you want to go. (Using your hands)
+
+</br>
 
 ### No-Clip
 
-> Makes you non-collidable.
+Makes you non-collidable.
+
+</br>
 
 ### Bounce Monke
 
-> Makes you bouncy.
+Makes you bouncy.
+
+</br>
 
 ### Big Monke
 
-> Makes you big.
+Makes you big.
+
+</br>
 
 ### Small Monke
 
-> Makes you small.
+Makes you small.
+
+</br>
 
 ### Checkpoints
 
-> Lets you create a checkpoint and teleport to it.
+Lets you create a checkpoint and teleport to it.
+
+</br>
 
 ### Disable Wind Barrier
 
-> Disables all wind barriers. Credits to defaultuser0 for the help.
+Disables all wind barriers. Credits to defaultuser0 for the help.
+
+</br>
 
 ### XRay
 
-> A mod that allows you to see other players through walls.
+A mod that allows you to see other players through walls.
+
+</br>
+
+</div>
 
 # 
 
