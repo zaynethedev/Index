@@ -13,63 +13,63 @@
 
 ### Platforms
 
-# Spawns collidable objects under your hand everytime you press grip.
+> Spawns collidable objects under your hand everytime you press grip.
   
 ### Speed Boost
 
-# Increases your speed.
+> Increases your speed.
 
 ### Fly
 
-# Allows you to glide in the air with your controller buttons.
+> Allows you to glide in the air with your controller buttons.
 
 ### Wall Walk
 
-# Lets you smoothly walk onto walls.
+> Lets you smoothly walk onto walls.
 
 ### No-Slip
 
-# Disables slipping mechanics.
+> Disables slipping mechanics.
 
 ### Slippery Monke
 
-# Makes everything slippery.
+> Makes everything slippery.
 
 ### Low-Gravity
 
-# Lets you float in the air.
+> Lets you float in the air.
 
 ### Iron Monke
 
-# Pushes you in the direction you want to go. (Using your hands)
+> Pushes you in the direction you want to go. (Using your hands)
 
 ### No-Clip
 
-# Makes you non-collidable.
+> Makes you non-collidable.
 
 ### Bounce Monke
 
-# Makes you bouncy.
+> Makes you bouncy.
 
 ### Big Monke
 
-# Makes you big.
+> Makes you big.
 
 ### Small Monke
 
-# Makes you small.
+> Makes you small.
 
 ### Checkpoints
 
-# Lets you create a checkpoint and teleport to it.
+> Lets you create a checkpoint and teleport to it.
 
 ### Disable Wind Barrier
 
-# Disables all wind barriers. Credits to defaultuser0 for the help.
+> Disables all wind barriers. Credits to defaultuser0 for the help.
 
 ### XRay
 
-# A mod that allows you to see other players through walls.
+> A mod that allows you to see other players through walls.
 
 # 
 
