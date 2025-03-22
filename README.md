@@ -105,6 +105,12 @@ A mod that allows you to see other players through walls.
 
 </br>
 
+### Dash Monke
+
+Allows you to fling yourself into the direction you are looking.
+
+</br>
+
 </div>
 
 # 
