@@ -172,14 +172,6 @@ namespace Index
                 {
                     indexPanel.SetActive(true);
                 }
-
-                foreach (ModHandler mod in initMods)
-                {
-                    if (mod.enabled)
-                    {
-                        mod.OnUpdate();
-                    }
-                }
             }
             else
             {
@@ -202,6 +194,14 @@ namespace Index
         void Update()
         {
             if (!initialized || !inRoom) return;
+
+            foreach (ModHandler mod in initMods)
+            {
+                if (mod.enabled)
+                {
+                    mod.OnUpdate();
+                }
+            }
 
             if (ControllerInputPoller.instance.leftControllerPrimaryButton && ControllerInputPoller.instance.rightControllerPrimaryButton)
             {
