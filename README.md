@@ -11,7 +11,7 @@
 
 </br>
 
-<h1 align="center"> Mod List [Currently 15 mods] </h1>
+<h1 align="center"> Mod List [Currently 16 mods] </h1>
 
 <div align="center">
 	
