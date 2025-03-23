@@ -11,7 +11,7 @@
 
 </br>
 
-<h1 align="center"> Mod List [Currently 15 mods] </h1>
+<h1 align="center"> Mod List [Currently 16 mods] </h1>
 
 <div align="center">
 	
@@ -102,6 +102,12 @@ Disables all wind barriers. Credits to defaultuser0 for the help.
 ### XRay
 
 A mod that allows you to see other players through walls.
+
+</br>
+
+### Dash Monke
+
+Allows you to fling yourself into the direction you are looking.
 
 </br>
 
