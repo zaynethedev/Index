@@ -14,6 +14,8 @@ using Index.Scripts;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Index.BepInfo;
+using UnityEngine.InputSystem;
+using Photon.Voice;
 
 namespace Index
 {
@@ -22,7 +24,7 @@ namespace Index
     {
         public static bool inRoom, initialized;
         public static List<ModHandler> initMods = new List<ModHandler>();
-        public static GameObject indexPanel;
+        public static GameObject indexPanel, thrusterL, thrusterR;
         public static Harmony harmony;
         public static ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "Index.cfg"), true);
         public ConfigEntry<Vector3> panelColorOuter;
@@ -93,6 +95,8 @@ namespace Index
         {
             var bundle = LoadAssetBundle("Index.Resources.index");
             indexPanel = bundle.LoadAsset<GameObject>("IndexPanel");
+            thrusterL = bundle.LoadAsset<GameObject>("MonkeThruster");
+            thrusterR = bundle.LoadAsset<GameObject>("MonkeThruster");
             panelColorOuter = config.Bind(
                 section: "Index Panel",
                 key: "Outer Color",
@@ -111,6 +115,18 @@ namespace Index
         {
             try
             {
+                thrusterL = Instantiate(thrusterL); thrusterR = Instantiate(thrusterR);
+                thrusterL.transform.SetParent(GorillaTagger.Instance.offlineVRRig.leftHandTransform, false);
+                thrusterR.transform.SetParent(GorillaTagger.Instance.offlineVRRig.rightHandTransform, false);
+                thrusterL.transform.localPosition = new Vector3(0.0372000001f, -0.0414999984f, 0.0480999984f);
+                thrusterL.transform.localRotation = Quaternion.Euler(336.230774f, 82.4238434f, 269.163513f);
+                thrusterL.transform.localScale = new Vector3(1.19494653f, 1.47576821f, 1.33444989f);
+                thrusterR.transform.localPosition = new Vector3(-0.038189102f, -0.0489270277f, 0.0503906533f);
+                thrusterR.transform.localRotation = Quaternion.Euler(338.277008f, 273.67511f, 273.216217f);
+                thrusterR.transform.localScale = new Vector3(1.19494653f, -1.47576797f, 1.33444989f);
+                thrusterL.SetActive(false); thrusterR.SetActive(false);
+                var prtclL = thrusterL.transform.Find("Particle System").GetComponent<ParticleSystem>().main; prtclL.simulationSpeed = 10; thrusterL.transform.Find("Particle System").gameObject.SetActive(false);
+                var prtclR = thrusterR.transform.Find("Particle System").GetComponent<ParticleSystem>().main; prtclR.simulationSpeed = 10; thrusterR.transform.Find("Particle System").gameObject.SetActive(false);
                 var allTypes = Assembly.GetExecutingAssembly().GetTypes();
                 indexPanel = Instantiate(indexPanel.transform.Find("Pivot").gameObject);
                 indexPanel.AddComponent<HoldableEngine>();

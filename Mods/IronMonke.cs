@@ -21,16 +21,27 @@ namespace Index.Mods
             {
                 GTPlayer.Instance.bodyCollider.attachedRigidbody.AddForce(32 * GTPlayer.Instance.rightControllerTransform.right, ForceMode.Acceleration);
                 GTPlayer.Instance.bodyCollider.attachedRigidbody.AddForce(32 * -GTPlayer.Instance.leftControllerTransform.right, ForceMode.Acceleration);
+                Plugin.thrusterL.transform.Find("Particle System").gameObject.SetActive(true);
+                Plugin.thrusterR.transform.Find("Particle System").gameObject.SetActive(true);
+            }
+            else
+            {
+                Plugin.thrusterL.transform.Find("Particle System").gameObject.SetActive(false);
+                Plugin.thrusterR.transform.Find("Particle System").gameObject.SetActive(false);
             }
         }
 
         public override void OnModDisabled()
         {
             base.OnModDisabled();
+            Plugin.thrusterL.SetActive(false);
+            Plugin.thrusterR.SetActive(false);
         }
         public override void OnModEnabled()
         {
             base.OnModEnabled();
+            Plugin.thrusterL.SetActive(true);
+            Plugin.thrusterR.SetActive(true);
         }
     }
 }
