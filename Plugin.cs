@@ -127,6 +127,8 @@ namespace Index
                 thrusterL.SetActive(false); thrusterR.SetActive(false);
                 var prtclL = thrusterL.transform.Find("Particle System").GetComponent<ParticleSystem>().main; prtclL.simulationSpeed = 10; thrusterL.transform.Find("Particle System").gameObject.SetActive(false);
                 var prtclR = thrusterR.transform.Find("Particle System").GetComponent<ParticleSystem>().main; prtclR.simulationSpeed = 10; thrusterR.transform.Find("Particle System").gameObject.SetActive(false);
+                thrusterL.transform.Find("Particle System").transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+                thrusterR.transform.Find("Particle System").transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
                 var allTypes = Assembly.GetExecutingAssembly().GetTypes();
                 indexPanel = Instantiate(indexPanel.transform.Find("Pivot").gameObject);
                 indexPanel.AddComponent<HoldableEngine>();
