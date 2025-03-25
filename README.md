@@ -111,15 +111,15 @@ Allows you to fling yourself into the direction you are looking.
 
 </br>
 
-### Slide Control
-
-Increases your slide control on slippery surfaces.
-
-</br>
-
 ### Flood
 
 Use your triggers to control how high the water rises! Left Trigger: Lower, Right Trigger: Rise
+
+</br>
+
+### Slide Control
+
+Increases your slide control on slippery surfaces.
 
 </br>
 
