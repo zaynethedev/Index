@@ -19,25 +19,36 @@ namespace Index.Resources
         {
             enabled = true;
             Plugin.indexPanel.transform.Find("IndexPanel/ModInfo").gameObject.GetComponent<TextMeshPro>().text = $"{modName}\n\n{modDescription}";
-            if (Plugin.indexPanel.transform.Find($"Mods/page1/{modID}"))
+            foreach (Transform page in Plugin.indexPanel.transform.Find("Mods"))
             {
-                Plugin.indexPanel.transform.Find($"Mods/page1/{modID}").gameObject.GetComponent<MeshRenderer>().material = ButtonManager.selectedMaterial;
+                if (page.name.Contains("page"))
+                {
+                    foreach (Transform modButton in page)
+                    {
+                        if (modButton.name == modID.ToString())
+                        {
+                            modButton.gameObject.GetComponent<MeshRenderer>().material = ButtonManager.selectedMaterial;
+                        }
+                    }
+                }
             }
-            else if (Plugin.indexPanel.transform.Find($"Mods/page2/{modID}"))
-            {
-                Plugin.indexPanel.transform.Find($"Mods/page2/{modID}").gameObject.GetComponent<MeshRenderer>().material = ButtonManager.selectedMaterial;
-            }
+
         }
         public virtual void OnModDisabled()
         {
             enabled = false;
-            if (Plugin.indexPanel.transform.Find($"Mods/page1/{modID}"))
+            foreach (Transform page in Plugin.indexPanel.transform.Find("Mods"))
             {
-                Plugin.indexPanel.transform.Find($"Mods/page1/{modID}").gameObject.GetComponent<MeshRenderer>().material = ButtonManager.unselectedMaterial;
-            }
-            else if (Plugin.indexPanel.transform.Find($"Mods/page2/{modID}"))
-            {
-                Plugin.indexPanel.transform.Find($"Mods/page2/{modID}").gameObject.GetComponent<MeshRenderer>().material = ButtonManager.unselectedMaterial;
+                if (page.name.Contains("page"))
+                {
+                    foreach (Transform modButton in page)
+                    {
+                        if (modButton.name == modID.ToString())
+                        {
+                            modButton.gameObject.GetComponent<MeshRenderer>().material = ButtonManager.unselectedMaterial;
+                        }
+                    }
+                }
             }
         }
 
