@@ -1,6 +1,5 @@
 using Index.Resources;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Index.Mods
 {
