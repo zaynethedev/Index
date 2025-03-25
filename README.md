@@ -11,7 +11,7 @@
 
 </br>
 
-<h1 align="center"> Mod List [Currently 16 mods] </h1>
+<h1 align="center"> Mod List [Currently 18 mods] </h1>
 
 <div align="center">
 	
@@ -108,6 +108,18 @@ A mod that allows you to see other players through walls.
 ### Dash Monke
 
 Allows you to fling yourself into the direction you are looking.
+
+</br>
+
+### Slide Control
+
+Increases your slide control on slippery surfaces.
+
+</br>
+
+### Flood
+
+Use your triggers to control how high the water rises! Left Trigger: Lower, Right Trigger: Rise
 
 </br>
 
