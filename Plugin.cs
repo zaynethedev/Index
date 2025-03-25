@@ -136,10 +136,15 @@ namespace Index
                 indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_OuterPlatformColor", new Color(panelColorOuter.Value.x, panelColorOuter.Value.y, panelColorOuter.Value.z));
                 indexPanel.transform.Find("IndexPanel").GetComponent<MeshRenderer>().material.SetColor("_MainPlatformColor", new Color(panelColorInner.Value.x, panelColorInner.Value.y, panelColorInner.Value.z));
                 var modsTransform = indexPanel.transform.Find("Mods");
-                modsTransform.Find("page1").gameObject.SetActive(true);
-                modsTransform.Find("page2").gameObject.SetActive(false);
-                indexPanel.transform.Find("Page1").AddComponent<ButtonManager>();
-                indexPanel.transform.Find("Page2").AddComponent<ButtonManager>();
+                foreach (Transform child in modsTransform)
+                {
+                    if (child.name.Contains("page") && child.name != "page1")
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+                indexPanel.transform.Find("NextPage").AddComponent<ButtonManager>();
+                indexPanel.transform.Find("PreviousPage").AddComponent<ButtonManager>();
                 foreach (var modType in allTypes.Where(modType => typeof(ModHandler).IsAssignableFrom(modType) && !modType.IsAbstract))
                 {
                     ModHandler modInstance = ModHandler.CreateInstance(modType);
@@ -165,17 +170,26 @@ namespace Index
                     var attrib = (IndexMod)Attribute.GetCustomAttribute(mod.GetType(), typeof(IndexMod));
                     if (attrib != null)
                     {
-                        var page1HashSet = new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" };
-                        var page2HashSet = new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" };
-                        if (page1HashSet.Contains(attrib.ModID.ToString()))
-                            indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page1"), false);
-                        else if (page2HashSet.Contains(attrib.ModID.ToString()))
-                            indexPanel.transform.Find($"Mods/{attrib.ModID}").SetParent(indexPanel.transform.Find("Mods/page2"), false);
+                        var pages = new Dictionary<HashSet<string>, string>
+                        {
+                            { new HashSet<string> { "1", "2", "3", "4", "5", "6", "7", "8" }, "page1" },
+                            { new HashSet<string> { "9", "10", "11", "12", "13", "14", "15", "16" }, "page2" },
+                            { new HashSet<string> { "17", "18", "19", "20", "21", "22", "23", "24" }, "page3" }
+                        };
+                        foreach (var page in pages)
+                        {
+                            if (page.Key.Contains(attrib.ModID.ToString()))
+                            {
+                                indexPanel.transform.Find($"Mods/{attrib.ModID}")
+                                    .SetParent(indexPanel.transform.Find($"Mods/{page.Value}"), false);
+                                break;
+                            }
+                        }
                     }
                 }
                 foreach (Transform child in indexPanel.transform.Find("Mods"))
                 {
-                    if (!new HashSet<string> { "page1", "page2" }.Contains(child.name))
+                    if (!new HashSet<string> { "page1", "page2", "page3" }.Contains(child.name))
                     {
                         child.gameObject.SetActive(false);
                     }
